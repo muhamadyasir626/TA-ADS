@@ -1,0 +1,8 @@
+{
+  "codeBlocks.ignoredLanguageIds": [
+    "css",
+    "html",
+    "javascript",
+    "plaintext"
+  ]
+}
