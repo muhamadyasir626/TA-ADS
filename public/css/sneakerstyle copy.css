@@ -314,60 +314,10 @@ section{
 
 .product .filter{
     position: absolute;
-    background-color: #ffffff;
+    background-color: #24262b;
     width: 25%;
     height: 100%;
     left: 1%;
-    overflow: hidden;
-    flex-wrap: wrap;
-}
-
-.product .filterbox1{
-    position: relative;
-    background-color: #ffffff;
-    width: 70%;
-    height: 40%;
-    left: 15%;
-    border-radius: 15px;
-    flex-wrap: wrap;
-    border: 2px solid rgb(187, 187, 187);
-    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
-    margin-top: 1.5px;
-}
-
-.product .filterbox1 a{
-    display: block; /* Mengubah <a> menjadi elemen blok */
-    font-family: "Roboto Slab";
-    font-size: 2rem;
-    margin-top: 0px;
-    margin-left: 20px;
-    text-decoration: none;
-    color: #333;
-    padding: 1rem;
-    flex-wrap: wrap;
-}
-
-.product .filterbox1 hr{
-    border: #000;
-    border-top: 2px solid #eee;
-    margin-bottom: 15px;
-}
-
-.product .filterbox1 .checkbox-container {
-    margin-left: 28px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.product .filterbox1 label {
-    font-family: "Roboto Slab";
-    font-size: 1.5rem;
-    color: #333;
-}
-
-.product .filterbox1 input[type="checkbox"] {
-    margin-right: 10px;
 }
 
 .product .box-container{
@@ -765,24 +715,6 @@ ul{
 }
 }
 
-.show-more-container {
-    text-align: center;
-    margin: 20px 0;
-  }
-  
-  #show-more {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  #show-more:hover {
-    background-color: #0056b3;
-  }
-  
 
 
 

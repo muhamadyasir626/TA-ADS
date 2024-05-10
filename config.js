@@ -65,16 +65,18 @@ app.get('/home', (req, res) => {
 app.get('/api/search', (req, res) => {
   const query = req.query.q || 'Nike';
   const limit = parseInt(req.query.limit) || 9;
+  const offset = parseInt(req.query.offset) || 0;
 
-  console.log(`Searching for sneakers with query: ${query} and limit: ${limit}`);
+  console.log(`Searching for sneakers with query: ${query}, limit: ${limit}, and offset: ${offset}`);
 
-  sneaks.getProducts(query, limit, (err, products) => {
+  sneaks.getProducts(query, 100, (err, products) => {
     if (err) {
       console.error('Error fetching products:', err);
       return res.status(500).json({ error: 'Product not found or error occurred.' });
     }
 
-    const formattedProducts = products.map((product) => ({
+    const slicedProducts = products.slice(offset, offset + limit);
+    const formattedProducts = slicedProducts.map((product) => ({
       shoeName: product.shoeName,
       brand: product.brand,
       colorway: product.colorway,
