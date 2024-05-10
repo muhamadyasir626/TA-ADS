@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>User Profile</title>
+  <link rel="stylesheet" href="/css/profile.css">
+</head>
+<body>
+  <header>
+    <h1>Welcome, <%= user ? user.name : "Guest" %>!</h1>
+    <nav>
+      <ul>
+        <li><a href="/home">Home</a></li>
+        <li><a href="/sneaker">Sneaker</a></li>
+        <li><a href="/logout">Logout</a></li>
+      </ul>
+    </nav>
+  </header>
+  <main>
+    <h2>Your Profile Information</h2>
+    <table>
+      <tr>
+        <th>Name</th>
+        <td><%= user ? user.name : "N/A" %></td>
+      </tr>
+      <tr>
+        <th>Email</th>
+        <td><%= user ? user.email : "N/A" %></td>
+      </tr>
+    </table>
+  </main>
+</body>
+
+</html>

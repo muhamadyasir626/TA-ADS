@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const formEl = document.querySelector("form");
   const inputEl = document.getElementById("cari");
-  const searchResult = document.querySelector(".content");
+  const searchResult = document.querySelector(".box-container");
   const showmore = document.getElementById("showmore");
 
   let inputData = "";
@@ -24,22 +24,41 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function displaySneakers(products) {
     searchResult.innerHTML = ""; // Clear previous results
-
+  
     products.map((result) => {
-      const imageWrapper = document.createElement("div");
-      imageWrapper.classList.add("frameimg");
+      const frameImg = document.createElement("div");
+      frameImg.classList.add("frameimg");
+  
+      // Create heart icon container
+      const heartIconContainer = document.createElement("div");
+      heartIconContainer.classList.add("circle");
+  
+      const heartIcon = document.createElement("i");
+      heartIcon.classList.add("fa", "fa-heart");
+  
+      heartIconContainer.appendChild(heartIcon);
+  
+      // Create and set sneaker image
       const image = document.createElement("img");
       image.src = result.thumbnail;
-      image.alt = result.description;
+      image.alt = result.shoeName;
+  
+      // Create link to resell site
       const imageLink = document.createElement("a");
       imageLink.href = result.resellLinks;
       imageLink.target = "_blank"; // Open in a new tab
-
-      imageLink.appendChild(image);
-      imageWrapper.appendChild(imageLink);
-      searchResult.appendChild(imageWrapper);
+      imageLink.textContent = result.shoeName;
+  
+      // Append elements in the desired structure
+      frameImg.appendChild(heartIconContainer);
+      frameImg.appendChild(image);
+      frameImg.appendChild(document.createElement("hr"));
+      frameImg.appendChild(imageLink);
+  
+      searchResult.appendChild(frameImg);
     });
   }
+  
 
   formEl.addEventListener("submit", (event) => {
     event.preventDefault();

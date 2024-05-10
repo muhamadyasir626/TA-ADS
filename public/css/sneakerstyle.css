@@ -35,7 +35,7 @@ header{
     width: 100%;
     z-index: 100;
     background: #ffffff;
-    padding: 2rem 9%;
+    padding: 2rem 6%;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -288,7 +288,7 @@ section{
 .frame1 .our{
     font-family: "Roboto Slab";
     font-size: 3rem;
-    font: bold;
+    font-weight: bold;
 }
 
 
@@ -307,64 +307,140 @@ section{
 .heading span{
     color: rgb(252, 118, 69);
 }
+
+.product{
+    width: auto;
+}
+
+.product .filter{
+    position: absolute;
+    background-color: #ffffff;
+    width: 25%;
+    height: 100%;
+    left: 1%;
+    overflow: hidden;
+    flex-wrap: wrap;
+}
+
+.product .filterbox1{
+    position: relative;
+    background-color: #ffffff;
+    width: 70%;
+    height: 40%;
+    left: 15%;
+    border-radius: 15px;
+    flex-wrap: wrap;
+    border: 2px solid rgb(187, 187, 187);
+    box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+    margin-top: 1.5px;
+}
+
+.product .filterbox1 a{
+    display: block; /* Mengubah <a> menjadi elemen blok */
+    font-family: "Roboto Slab";
+    font-size: 2rem;
+    margin-top: 0px;
+    margin-left: 20px;
+    text-decoration: none;
+    color: #333;
+    padding: 1rem;
+    flex-wrap: wrap;
+}
+
+.product .filterbox1 hr{
+    border: #000;
+    border-top: 2px solid #eee;
+    margin-bottom: 15px;
+}
+
+.product .filterbox1 .checkbox-container {
+    margin-left: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.product .filterbox1 label {
+    font-family: "Roboto Slab";
+    font-size: 1.5rem;
+    color: #333;
+}
+
+.product .filterbox1 input[type="checkbox"] {
+    margin-right: 10px;
+}
+
 .product .box-container{
     display: flex;
     flex-wrap: wrap; /* Bungkus ke baris berikutnya */
-    gap: 20px; /* Sesuaikan jarak antar kotak */
+    gap: 0px; /* Sesuaikan jarak antar kotak */
     justify-content: space-between; /* Atur penyebaran kotak produk */
-    padding: 10px;
     margin: 0 auto;
     width: 100%;
-}
-.product .box-container .box{
-    flex: 1 1 calc(33.33% - 20px); /* Sesuaikan agar tiga kotak per baris */
-    max-width: calc(33.33% - 20px); /* Pastikan tidak melebihi tiga kotak */
-    position: relative;
-    background: #ffffff;
-    box-shadow: 0 5px 15px rgba(0,0,0,.1);
-    border-radius: 10px;
-    overflow: hidden;
-    transition: .2s;
-    text-align: center;
-    padding: 0;
-    margin-bottom: 20px; /* Jarak vertikal antara baris */
-}
-
-
-.product .box-container .content .frameimg{
-   height: 215px;
-   width: 100%;
-   background-color: #ff0000;
-   z-index: 1;
-}
-
-.product .box-container .content  .circle{
-    position: absolute;
     background-color: #ffffff;
+    margin-left: 20%;
+    gap: 15px; /* Menambahkan gap antar box */
+}
+
+.product .box-container .frameimg{
+   flex: 1 1 calc(30% - 20px);
+   margin-bottom: 20px;
+   min-width: 200px; /* Ukuran minimum */
+   width: 30%;
+   height: 100%;
+   border-radius: 10px;
+   box-sizing: border-box;
+   background-color: #ffffff;
+   overflow:hidden;
+   text-align: center;
+   border: 2px solid rgb(187, 187, 187);
+   box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+}
+
+.product .box-container .frameimg img{
+    width: 90%;
+    height: 80%;
+    object-fit: cover;
+    z-index: 1;
+ }
+
+.frameimg a[target="_blank"] {
+    display: block;
+    color: #333;
+    font-weight: bold;
+    text-decoration: none;
+    margin-top: 15px; /* Adjust the margin-top value */
+    margin-bottom: 15px; /* Adjust the margin-bottom value */
+    font-size: 16px; /* Adjust the font size as needed */
+    text-align: center;
+    font-family: "Roboto Slab";
+}
+
+
+ .product .box-container .frameimg .circle{ 
+    background-color: #afafaf;
     width: 40px; /* Sesuaikan ukuran lingkaran */
     height: 40px;
-    padding: 0; /* Tidak perlu padding tambahan */
-    margin-left: 80%;
-    top: 193px;
-    border-radius: 50%;
     display: flex; /* Gunakan Flexbox untuk membuat ikon di tengah */
     justify-content: center;
     align-items: center;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    z-index: 10;
+    border-radius: 50%;
+    margin-left: 83%;
+    margin-top: 10px;
  }
 
- .product .box-container .content  .circle a.fa-heart{
+
+ .product .box-container .circle .fa-heart{
     font-size: 2rem;
-    align-items: center;
-    color: #bbbbbb;
  }
 
-.product .box-container .box img{
-    height: 17rem;
-    background-color: #ff0000;
-    margin: 3rem 0rem;
+ .product .box-container .frameimg  hr {
+    position: relative;
+    width: auto;
+    border: 1px solid rgb(187, 187, 187);
+    z-index: 1; /* Pastikan berada di bawah lingkaran */
 }
+
 .product .box-container .box:hover img{
     transform: scale(1.z);
 }
@@ -675,13 +751,16 @@ ul{
 
 /*responsive*/
 @media(max-width: 767px){
-  .footer-col{
-    width: 50%;
-    margin-bottom: 30px;
+.frameimg{
+    padding: 20px;
 }
+  .box-container{
+    width: 45%;
+  }  
 }
-@media(max-width: 574px){
-  .footer-col{
+
+@media(max-width: 480px){
+  .box-container{
     width: 100%;
 }
 }

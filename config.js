@@ -3,20 +3,35 @@ const path = require('path');
 const bcrypt = require('bcrypt');
 const collection = require('./db');
 const async = require('hbs/lib/async');
-const app = express()
-const port = 4000
+const app = express();
+const port = 3000;
 const axios = require('axios');
 const SneaksAPI = require('sneaks-api');
 const sneaks = new SneaksAPI();
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
 
+// Setup session
+app.use(session({
+  secret: 'your_secret_key', // Replace with your own secret key
+  resave: false,
+  saveUninitialized: false,
+  store: MongoStore.create({ mongoUrl: 'mongodb://localhost:27017/sneakersessions' }),
+  cookie: { maxAge: 1000 * 60 * 60 * 24 } // Session valid for 1 day
+}));
 
 app.set('view engine', 'ejs');
-
 app.use(express.static('public'));
 
-//convert data to json
+// Convert data to JSON
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+
+// Middleware to pass user data to templates
+app.use((req, res, next) => {
+  res.locals.user = req.session.user || null;
+  next();
+});
 
 app.get('/', (req, res) => {
   res.render('index');
@@ -24,6 +39,10 @@ app.get('/', (req, res) => {
 
 app.get('/sneaker', (req, res) => {
   res.render('sneaker');
+});
+
+app.get('/profile', (req, res) => {
+  res.render('profile');
 });
 
 app.get('/login', (req, res) => {
@@ -35,7 +54,11 @@ app.get('/signup', (req, res) => {
 });
 
 app.get('/home', (req, res) => {
-  res.render('home-login');
+  if (req.session.user) {
+    res.render('home-login', { user: req.session.user });
+  } else {
+    res.send('<script>alert("Please login first."); window.location.href = "/login";</script>');
+  }
 });
 
 // New route to handle sneaker search via Sneaks API
@@ -52,16 +75,22 @@ app.get('/api/search', (req, res) => {
     }
 
     const formattedProducts = products.map((product) => ({
+      shoeName: product.shoeName,
+      brand: product.brand,
+      colorway: product.colorway,
+      make: product.make,
+      retailPrice: product.retailPrice,
+      styleID: product.styleID,
       thumbnail: product.thumbnail,
-      description: product.shoeName,
-      resellLinks: product.resellLinks.stockX, // Adjust to your preferred link
+      description: product.description,
+      resellLinks: product.resellLinks.stockX
     }));
 
     res.json(formattedProducts);
   });
-})
+});
 
-//register
+// Register
 app.post('/signup', async (req, res) => {
   const { name, email, password1, password2 } = req.body;
 
@@ -90,7 +119,7 @@ app.post('/signup', async (req, res) => {
     };
 
     // Save user data to the database
-    const insertedUserData = await collection.insertMany(userDataToInsert);
+    const insertedUserData = await collection.insertMany([userDataToInsert]);
 
     // Respond with a success message
     console.log("Registration successful. Please log in.");
@@ -102,37 +131,46 @@ app.post('/signup', async (req, res) => {
   }
 });
 
-//login
+// Login
 app.post("/login", async (req, res) => {
   try {
     const checkEmail = await collection.findOne({ email: req.body.email });
 
     if (!checkEmail) {
-      res.send('<script>alert("Email not found");window.location.href="/login";</script>');
+      return res.send('<script>alert("Email not found");window.location.href="/login";</script>');
     }
+
     const checkPassword = await bcrypt.compare(req.body.password, checkEmail.password);
     if (checkPassword) {
-      res.send('<script>alert("Login Succesesfull");window.location.href="/home";</script>');
+      req.session.user = {
+        name: checkEmail.name,
+        email: checkEmail.email
+      };
+      return res.send('<script>alert("Login Successful");window.location.href="/home";</script>');
     } else {
-      res.send('<script>alert("Wrong Password!");window.location.href="/login";</script>');
+      return res.send('<script>alert("Wrong Password!");window.location.href="/login";</script>');
     }
-    
-  }catch {
-    res.send('<script>alert("Wrong details!");window.location.href="/login";</script>');
+  } catch (error) {
+    console.error('Error during login:', error);
+    return res.send('<script>alert("Wrong details!");window.location.href="/login";</script>');
   }
-  
-
-  
 });
 
+// Logout
+app.get('/logout', (req, res) => {
+  req.session.destroy((err) => {
+    if (err) {
+      console.error('Error logging out:', err);
+    }
+    res.send('<script>alert("You have been logged out."); window.location.href = "/login";</script>');
+  });
+});
 
-
-
-app.use('/', (req, res) => {
+// 404 Error Page
+app.use((req, res) => {
   res.status(404);
-  res.send("404");
+  res.send("404 - Page Not Found");
 });
-
 
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
