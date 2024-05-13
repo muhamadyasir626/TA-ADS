@@ -4,7 +4,7 @@ const bcrypt = require('bcrypt');
 const collection = require('./db');
 const async = require('hbs/lib/async');
 const app = express();
-const port = 3000;
+const port = 443;
 const axios = require('axios');
 const SneaksAPI = require('sneaks-api');
 const sneaks = new SneaksAPI();
@@ -60,6 +60,15 @@ app.get('/home', (req, res) => {
     res.send('<script>alert("Please login first."); window.location.href = "/login";</script>');
   }
 });
+app.get('/sneaker-login', (req, res) => {
+  if (req.session.user) {
+    res.render('sneaker-login', { user: req.session.user });
+  } else {
+    res.send('<script>alert("Please login first."); window.location.href = "/login";</script>');
+  }
+});
+
+//pop up 
 
 // New route to handle sneaker search via Sneaks API
 app.get('/api/search', (req, res) => {
@@ -167,6 +176,42 @@ app.get('/logout', (req, res) => {
     res.send('<script>alert("You have been logged out."); window.location.href = "/login";</script>');
   });
 });
+
+//display most popular
+app.get('/api/most-popular', (req, res) => {
+  const limit = parseInt(req.query.limit) || 9;
+  const offset = parseInt(req.query.offset) || 0;
+
+  console.log(`Fetching most popular sneakers with limit: ${limit}, offset: ${offset}`);
+
+  // Fetch a large enough number to handle pagination properly
+  sneaks.getMostPopular(100, (err, products) => {
+    if (err) {
+      console.error('Error fetching most popular products:', err);
+      return res.status(500).json({ error: 'Error occurred while fetching most popular products.' });
+    }
+
+    const slicedProducts = products.slice(offset, offset + limit);
+    const formattedProducts = slicedProducts.map((product) => ({
+      shoeName: product.shoeName,
+      brand: product.brand,
+      colorway: product.colorway,
+      make: product.make,
+      retailPrice: product.retailPrice,
+      styleID: product.styleID,
+      thumbnail: product.thumbnail,
+      description: product.description,
+      resellLinks: product.resellLinks.stockX
+    }));
+
+    res.json(formattedProducts);
+  });
+});
+
+//pop up 
+
+
+
 
 // 404 Error Page
 app.use((req, res) => {

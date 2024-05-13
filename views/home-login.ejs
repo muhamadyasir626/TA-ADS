@@ -5,8 +5,8 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Home Page</title>
-        <link rel="stylesheet" href="font-awesome/css/font-awesome.css">
-        <link rel="stylesheet" href="css/home-login.css">
+        <link rel="stylesheet" href="/css/home-login.css">
+        <link rel="stylesheet" href="/css/home-login.css">
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="stylesheet" href="font-awesome/css/font-awesome.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
@@ -16,17 +16,26 @@
     <body>
         <header>
             <div id="menu-bar" class="fa fa-bars"></div>
-            <div class="search-box"></div>
-                <form action="./sneaker" method="post">
-                    <input type="text" name="search" id="cari" placeholder="Search" required>
+            <a href="/home" class="logo">Sneaker<span>Scout</span></a>
+            <div class="search-box">
+                <form action="">
                     <button type="submit"><i class="fa fa-search"></i></i></button>
+                    <input type="text" name="search" id="cari" placeholder="Search">
                 </form>
-                <a href="#" class="logo">Sneaker<span>Scout</span></a>
-
+            </div>
             <nav class="navbar">
-                <a href="/sneaker">Sneaker</a>
-                <a href="#Wishlist">Wishlist</a>
-                <a href="/profile"><i class="fa fa-user"></i></a>
+                <a href="/sneaker" class="nav-item">
+                    <i class="fas fa-home"></i>
+                    <span>Catalog</span>
+                </a>
+                <a href="#Wishlist" class="nav-item">
+                    <i class="fas fa-heart"></i>
+                    <span>Wishlist</span>
+                </a>
+                <a href="/profile" class="nav-item">
+                    <i class="fa fa-user"></i>
+                    <span>Account</span>
+                </a>
             </nav>
 
         </header>
@@ -39,7 +48,7 @@
                         <h3>Air Jordan 1 Retro High</h3>
                     </div>
                     <div class="image">
-                        <img src="img/home-login/slide/j1.png" class="shoe">
+                        <img src="/img/home-login/slide/j1.png" class="shoe">
                     </div>
                 </div>
             </div>
@@ -50,7 +59,7 @@
                         <h3>Air Jordan 1 Retro High</h3>
                     </div>
                     <div class="image">
-                        <img src="img/home-login/slide/j2.png" class="shoe">
+                        <img src="/img/home-login/slide/j2.png" class="shoe">
                     </div>
                 </div>
             </div>
@@ -62,7 +71,7 @@
 
                     </div>
                     <div class="image">
-                        <img src="img/home-login/slide/j3.png" class="shoe">
+                        <img src="/img/home-login/slide/j3.png" class="shoe">
                     </div>
                 </div>
             </div>
@@ -73,7 +82,7 @@
                         <h3>Air Jordan 1 Retro High</h3>
                     </div>
                     <div class="image">
-                        <img src="img/home-login/slide/j4.png" class="shoe">
+                        <img src="/img/home-login/slide/j4.png" class="shoe">
                     </div>
                 </div>
             </div>
@@ -82,191 +91,258 @@
             <div id="next" class="fa fa-angle-right" onclick="next();"></div>
         </section>
         <!--end home-->
+
         <div class="frame1">
             <span class="our">Our Collection</span>
             <h3 class="welcome">Welcome to our exclusive sneaker collection, where each pair is a tribute to sneaker culture's rich heritage and bold future. <br> Designed for the true aficionado, our selection not only resonates with style but also narrates a story of innovation and passion.<br> Whether you're looking to stand out with a rare find or appreciate the finest craftsmanship, our collection promises something special <br> for every sneakerhead. Dive into a world where each step is about making a statement. Start your journey with us today!h</h3>
         </div>
         <section class="product" id="product">
             <h1 class="heading">NEW <span>RELEASE</span></h1>
-            <div class="box-container">
+            <div class="box-container" id="sneaker-mostpopular1">
 
-                <div class="box">
-                    <div class="icons">
-                        <a href="#" class="fa fa-heart"></a>
-                    </div>
-                    <div class="content">
-                        <img src="img/home-login/product4/8.png" alt="">
-                        <h3>Nike Shoes</h3>
-                    </div>
+                <div class = "frameimg"  data-sneaker-id="sneakerID">     
+                    <div class="circle">
+                        <i class="fa fa-heart"></i>
+                    </div>                  
+                    <img src="/img/home-login/product4/8.png" alt="Nike Dunk Low Retro 'USC'"> 
+           
+                        <a href="" class ="sneaker-details-link"  
+                        target="_blank">Nike Dunk Low Retro 'USC</a>
                 </div>
 
-                <div class="box">
-                    <div class="icons">
-                        <a href="#" class="fa fa-heart"></a>
-                    </div>
-                    <div class="content">
-                        <img src="img/home-login/product4/8.png" alt="">
-                        <h3>Nike Shoes</h3>
-                    </div>
+                <div class = "frameimg"  data-sneaker-id="sneakerID">   
+                    <div class="circle">
+                        <i class="fa fa-heart"></i>
+                    </div>                  
+                    <img src="/img/home-login/product4/8.png" alt="Nike Dunk Low Retro 'USC'"> 
+                  
+                        <a href="" class ="sneaker-details-link" 
+                        target="_blank">Nike Dunk Low Retro 'USC</a>
                 </div>
 
-                <div class="box">
-                    <div class="icons">
-                        <a href="#" class="fa fa-heart"></a>
-                    </div>
-                    <div class="content">
-                        <img src="img/home-login/product4/8.png" alt="">
-                        <h3>Nike Shoes</h3>
-                    </div>
+                <div class = "frameimg"  data-sneaker-id="sneakerID">    
+                    <div class="circle">
+                        <i class="fa fa-heart"></i>
+                    </div>                  
+                    <img src="/img/home-login/product4/8.png" alt="Nike Dunk Low Retro 'USC'"> 
+                  
+                        <a href="" class ="sneaker-details-link" 
+                        target="_blank">Nike Dunk Low Retro 'USC</a>
                 </div>
 
-                <div class="box">
-                    <div class="icons">
-                        <a href="#" class="fa fa-heart"></a>
-                    </div>
-                    <div class="content">
-                        <img src="img/home-login/product4/8.png" alt="">
-                        <h3>Nike Shoes</h3>
-                    </div>
+                <div class = "frameimg"  data-sneaker-id="sneakerID">    
+                    <div class="circle">
+                        <i class="fa fa-heart"></i>
+                    </div>                  
+                    <img src="/img/home-login/product4/8.png" alt="Nike Dunk Low Retro 'USC'"> 
+              
+                        <a href="" class ="sneaker-details-link" 
+                        target="_blank">Nike Dunk Low Retro 'USC</a>
                 </div>
 
-                <div class="box">
-                    <div class="icons">
-                        <a href="#" class="fa fa-heart"></a>
-                    </div>
-                    <div class="content">
-                        <img src="img/home-login/product4/8.png" alt="">
-                        <h3>Nike Shoes</h3>
-                    </div>
+                <div class = "frameimg"  data-sneaker-id="sneakerID">    
+                    <div class="circle">
+                        <i class="fa fa-heart"></i>
+                    </div>                  
+                    <img src="/img/home-login/product4/8.png" alt="Nike Dunk Low Retro 'USC'"> 
+              
+                        <a href="" class ="sneaker-details-link" 
+                        target="_blank">Nike Dunk Low Retro 'USC</a>
                 </div>
 
-                <div class="box">
-                    <div class="icons">
-                        <a href="#" class="fa fa-heart"></a>
-                    </div>
-                    <div class="content">
-                        <img src="img/home-login/product4/8.png" alt="">
-                        <h3>Nike Shoes</h3>
-                    </div>
+                <div class = "frameimg"  data-sneaker-id="sneakerID">
+                    <div class="circle">
+                        <i class="fa fa-heart"></i>
+                    </div>                  
+                    <img src="/img/home-login/product4/8.png" alt="Nike Dunk Low Retro 'USC'"> 
+                
+                        <a href="" class ="sneaker-details-link" 
+                        target="_blank">Nike Dunk Low Retro 'USC</a>
                 </div>
 
-                <div class="box">
-                    <div class="icons">
-                        <a href="#" class="fa fa-heart"></a>
-                    </div>
-                    <div class="content">
-                        <img src="img/home-login/product4/8.png" alt="">
-                        <h3>Nike Shoes</h3>
-                    </div>
+                <div class = "frameimg"  data-sneaker-id="sneakerID">  
+                    <div class="circle">
+                        <i class="fa fa-heart"></i>
+                    </div>                  
+                    <img src="/img/home-login/product4/8.png" alt="Nike Dunk Low Retro 'USC'"> 
+               
+                        <a href="" class ="sneaker-details-link" 
+                        target="_blank">Nike Dunk Low Retro 'USC</a>
                 </div>
 
-                <div class="box">
-                    <div class="icons">
-                        <a href="#" class="fa fa-heart"></a>
+                <div class = "frameimg"  data-sneaker-id="sneakerID">
+                    <div class="circle">
+                        <i class="fa fa-heart"></i>
+                    </div>                  
+                    <img src="/img/home-login/product4/8.png" alt="Nike Dunk Low Retro 'USC'"> 
+          
+                        <a href="" class ="sneaker-details-link" 
+                        target="_blank">Nike Dunk Low Retro 'USC</a>
+                </div>
+
+                <div class = "frameimg"  data-sneaker-id="sneakerID">   
+                    <div class="circle">
+                        <i class="fa fa-heart"></i>
+                    </div>                  
+                    <img src="/img/home-login/product4/8.png" alt="Nike Dunk Low Retro 'USC'"> 
+             
+                        <a href="" class ="sneaker-details-link" 
+                        target="_blank">Nike Dunk Low Retro 'USC</a>
+                </div>
+            </div>  
+    </section>
+
+
+
+
+
+<!-- draft pop up adit -->
+    <!-- <div class="products-preview">
+        <div class="preview" data-target="p-1">
+            <div class = "previewimg">
+            <img src="/img/home-login/product4/8.png" alt="">
+            </div>
+            <i class="fas fa-times"></i>
+            <div class="description">
+                <div class="framedes">
+                    <h3>Nike</h3>
+                <p>Nike red 1 mid</p>
+                <p>IDR 1.000.000,00</p>
+                <hr>
+                <div class="size">
+                    <a>Available Size :</a> <br>
+                    <div class="size1">
+                    <span>9</span>
+                    <span>9</span>
+                    <span>9</span>
+                    <span>9</span>
+                    <span>9</span>
+                    <span>9</span>
+                    <span>9</span>
                     </div>
-                    <div class="content">
-                        <img src="img/home-login/product4/8.png" alt="">
-                        <h3>Nike Shoes</h3>
+                </div>
+                <div class="color">
+                    <a>Color :</a> <br>
+                    <div class="color">
+                        <span></span>
                     </div>
+                </div>
+                <div class="buttons">
+                    <a href="#" class="buy">buy now</a>
+                    <a href="#" class="fa fa-heart"></a>
+                </div>
                 </div>
             </div>
-        </section>
-        
-
-        <div class="frame2">
-            <div class="contenttext">
+        </div>
+    </div> -->
+   
+    
+      
+       
+    
+    <div class="frame2">
+        <div class="contenttext">
                 <h3  class="kata">Hot Item !</h3>
                 <h3 class="kata2">Nike Blazer Mid 77 Suede</h3>
             </div>
             <div class="contentimg">
-                <img src="img/home-login/slide/j5.png" alt="">
+                <img src="/img/home-login/slide/j5.png" alt="">
             </div>
         </div>
 
 
         <section class="product" id="product">
             <h1 class="heading">SNEAKER</span></h1>
-            <div class="box-container">
+            <div class="box-container" id="sneaker-mostpopular2">
 
-                <div class="box">
-                    <div class="icons">
-                        <a href="#" class="fa fa-heart"></a>
-                    </div>
-                    <div class="content">
-                        <img src="img/home-login/product4/8.png" alt="">
-                        <h3>Nike Shoes</h3>
-                    </div>
+                <div class = "frameimg"  data-sneaker-id="sneakerID">      
+                    <div class="circle">
+                        <i class="fa fa-heart"></i>
+                    </div>                  
+                    <img src="/img/home-login/product4/8.png" alt="Nike Dunk Low Retro 'USC'"> 
+                        <a href="" class ="sneaker-details-link" 
+                        target="_blank">Nike Dunk Low Retro 'USC</a>
                 </div>
 
-                <div class="box">
-                    <div class="icons">
-                        <a href="#" class="fa fa-heart"></a>
-                    </div>
-                    <div class="content">
-                        <img src="img/home-login/product4/8.png" alt="">
-                        <h3>Nike Shoes</h3>
-                    </div>
+                <div class = "frameimg"  data-sneaker-id="sneakerID">      
+                    <div class="circle">
+                        <i class="fa fa-heart"></i>
+                    </div>                  
+                    <img src="/img/home-login/product4/8.png" alt="Nike Dunk Low Retro 'USC'"> 
+                  
+                        <a href="" class ="sneaker-details-link" 
+                        target="_blank">Nike Dunk Low Retro 'USC</a>
                 </div>
 
-                <div class="box">
-                    <div class="icons">
-                        <a href="#" class="fa fa-heart"></a>
-                    </div>
-                    <div class="content">
-                        <img src="img/home-login/product4/8.png" alt="">
-                        <h3>Nike Shoes</h3>
-                    </div>
+                <div class = "frameimg"  data-sneaker-id="sneakerID">       
+                    <div class="circle">
+                        <i class="fa fa-heart"></i>
+                    </div>                  
+                    <img src="/img/home-login/product4/8.png" alt="Nike Dunk Low Retro 'USC'"> 
+                   
+                        <a href="" class ="sneaker-details-link" 
+                        target="_blank">Nike Dunk Low Retro 'USC</a>
                 </div>
 
-                <div class="box">
-                    <div class="icons">
-                        <a href="#" class="fa fa-heart"></a>
-                    </div>
-                    <div class="content">
-                        <img src="img/home-login/product4/8.png" alt="">
-                        <h3>Nike Shoes</h3>
-                    </div>
+                <div class = "frameimg"  data-sneaker-id="sneakerID">        
+                    <div class="circle">
+                        <i class="fa fa-heart"></i>
+                    </div>                  
+                    <img src="/img/home-login/product4/8.png" alt="Nike Dunk Low Retro 'USC'"> 
+                   
+                        <a href="" class ="sneaker-details-link" 
+                        target="_blank">Nike Dunk Low Retro 'USC</a>
                 </div>
 
-                <div class="box">
-                    <div class="icons">
-                        <a href="#" class="fa fa-heart"></a>
-                    </div>
-                    <div class="content">
-                        <img src="img/home-login/product4/8.png" alt="">
-                        <h3>Nike Shoes</h3>
-                    </div>
+                <div class = "frameimg"  data-sneaker-id="sneakerID">       
+                    <div class="circle">
+                        <i class="fa fa-heart"></i>
+                    </div>                  
+                    <img src="/img/home-login/product4/8.png" alt="Nike Dunk Low Retro 'USC'"> 
+                    
+                        <a href="" class ="sneaker-details-link" 
+                        target="_blank">Nike Dunk Low Retro 'USC</a>
                 </div>
 
-                <div class="box">
-                    <div class="icons">
-                        <a href="#" class="fa fa-heart"></a>
-                    </div>
-                    <div class="content">
-                        <img src="img/home-login/product4/8.png" alt="">
-                        <h3>Nike Shoes</h3>
-                    </div>
+                <div class = "frameimg"  data-sneaker-id="sneakerID">       
+                    <div class="circle">
+                        <i class="fa fa-heart"></i>
+                    </div>                  
+                    <img src="/img/home-login/product4/8.png" alt="Nike Dunk Low Retro 'USC'"> 
+                 
+                        <a href="" class ="sneaker-details-link" 
+                        target="_blank">Nike Dunk Low Retro 'USC</a>
                 </div>
 
-                <div class="box">
-                    <div class="icons">
-                        <a href="#" class="fa fa-heart"></a>
-                    </div>
-                    <div class="content">
-                        <img src="img/home-login/product4/8.png" alt="">
-                        <h3>Nike Shoes</h3>
-                    </div>
+                <div class = "frameimg"  data-sneaker-id="sneakerID">       
+                    <div class="circle">
+                        <i class="fa fa-heart"></i>
+                    </div>                  
+                    <img src="/img/home-login/product4/8.png" alt="Nike Dunk Low Retro 'USC'"> 
+                  
+                        <a href="" class ="sneaker-details-link" 
+                        target="_blank">Nike Dunk Low Retro 'USC</a>
                 </div>
 
-                <div class="box">
-                    <div class="icons">
-                        <a href="#" class="fa fa-heart"></a>
-                    </div>
-                    <div class="content">
-                        <img src="img/home-login/product4/8.png" alt="">
-                        <h3>Nike Shoes</h3>
-                    </div>
+                <div class = "frameimg"  data-sneaker-id="sneakerID">      
+                    <div class="circle">
+                        <i class="fa fa-heart"></i>
+                    </div>                  
+                    <img src="/img/home-login/product4/8.png" alt="Nike Dunk Low Retro 'USC'"> 
+                 
+                        <a href="" class ="sneaker-details-link" 
+                        target="_blank">Nike Dunk Low Retro 'USC</a>
                 </div>
+
+                <div class = "frameimg"  data-sneaker-id="sneakerID">      
+                    <div class="circle">
+                        <i class="fa fa-heart"></i>
+                    </div>                  
+                    <img src="/img/home-login/product4/8.png" alt="Nike Dunk Low Retro 'USC'"> 
+                 
+                        <a href="" class ="sneaker-details-link" 
+                        target="_blank">Nike Dunk Low Retro 'USC</a>
+                </div> 
             </div>
         </section>
         <!--end product-->
@@ -364,3 +440,4 @@
 
             
 <script src="/home.js"></script>
+<script src="/sneaks.js"></script>

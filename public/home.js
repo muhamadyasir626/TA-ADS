@@ -1,3 +1,4 @@
+
 let menu = document.querySelector('#menu-bar');
 let navbar = document.querySelector('.navbar');
 
@@ -41,3 +42,31 @@ document.querySelectorAll('.featured-image-3').forEach(image_3 =>{
         document.querySelector('.big-image-3').src = src;
     });
 });
+
+// let preveiwContainer = document.querySelector('.products-preview');
+// let previewBox = preveiwContainer.querySelectorAll('.preview');
+
+// document.querySelectorAll('.box-container .frameimg').forEach(product => {
+//     product.onclick = () => {
+//         preveiwContainer.style.display = 'flex';
+        
+//         let name = product.getAttribute('data-name');
+//         // Temukan gambar dalam produk yang diklik dan ambil 'alt' atributnya
+//         const styleid = product.querySelector('img').alt;
+//         console.log(styleid); // Harus selalu mencetak ke console saat produk diklik
+
+//         previewBox.forEach(preview => {
+//             let target = preview.getAttribute('data-target');
+//             if (name === target) {
+//                 preview.classList.add('active');
+//             }
+//         });
+//     };
+// });
+
+// previewBox.forEach(close => {
+//     close.querySelector('.fa-times').onclick = () => {
+//         close.classList.remove('active');
+//         preveiwContainer.style.display = 'none';
+//     };
+// });

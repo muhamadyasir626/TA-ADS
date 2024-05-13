@@ -17,7 +17,6 @@
     margin: 0;
     box-sizing: border-box;
     outline: none;
-
     text-decoration: none;
     text-transform: uppercase;
     transition: all .2s linear;
@@ -31,10 +30,11 @@ header{
     position: fixed;
     top: 0;
     left: 0;
+    gap: 20px;
     width: 100%;
     z-index: 100;
     background: #ffffff;
-    padding: 2rem 9%;
+    padding: 2rem 6%;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -42,37 +42,70 @@ header{
 }
 
 header .search-box{
-    flex:0;
-    background-color: #EB4511;
+    width: max-content;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #bbbbbb;
+    width: 700px;
+}
+
+header .search-box form{
+    display: flex;
 }
 
 .search-box input{
-    border-radius: 20px;
-    font-size:12;
-    padding: 10px;
+    border-radius: 5px;
+    font-size: 15px;
+    margin-left: 5px;
+    font-family: "roboto slab";
+    background: transparent;
+    border: none;
+    color: #000000;
+    width: 630px;
 }
 
+.search-box button{
+    border-radius: 5px;
+    font-size: 15px;
+    font-family: "roboto slab";
+    background: transparent;
+    border: none;
+    color: #bbbbbb;
+    font-size: 15px;
+    margin-left:10px ;
+}
 
 header .logo{
     font-size: 30px;
     color: #000;
     font-weight: 500;
-    flex: 3;
     text-align: center; /* Center the logo text within its flex item */
     font-family: "Most Wazted";
     color: #EB4511;
+    max-width: 100px;
 }
 
 header .navbar {
     display: flex;
     justify-content: space-around; /* Menyebar item navbar secara lebih merata */
+    align-items: center;
+    gap:10px;
 }
 header .navbar a{
     font-size: 1.5rem;
+    display: flex;
     color: #000;
-    margin: 0 1rem;
-    padding: 2px 0px;
+    margin: 0 0.5rem;
+    padding: 4px 0px;
     justify-content: space-between;
+    font-family: "roboto slab";
+    color: #afafaf;
+}
+
+header .navbar span{
+    font-family: "roboto slab";
 }
 
 .logo {
@@ -89,18 +122,15 @@ header .navbar a{
 }
 
 
-header .navbar .button{
-    background-color: #EB4511;
-    border: none;
-    padding: 2px 10px;
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* Adjust spacing between icon and text */
+    color: #909090; /* Customize color */
     text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
 }
 
-.navbar .fa-user {
-    font-size: 20px; /* Sesuaikan ukuran sesuai kebutuhan */
-}
 header .navbar a:hover{
     color: orangered;
 }
@@ -109,14 +139,6 @@ header .navbar .button:hover{
     color: rgb(0, 0, 0);
 }
 
-header .icons a{
-    font-size: 2rem;
-    color: #000;
-    margin-left: 2rem;
-}
-header .icons a:hover{
-    color: orangered;
-}
 
 #menu-bar{
     font-size: 2rem;
@@ -224,7 +246,7 @@ section{
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    z-index: 100;
+    z-index: 1;
     height: 5rem;
     width: 5rem;
     line-height: 4.5rem;
@@ -283,79 +305,308 @@ section{
 .heading span{
     color: rgb(252, 118, 69);
 }
+
 .product .box-container{
     display: flex;
-    flex-wrap: wrap;
-    gap: 2rem;
+    flex-wrap: wrap; /* Bungkus ke baris berikutnya */
+    gap: 0px; /* Sesuaikan jarak antar kotak */
+    justify-content: space-between; /* Atur penyebaran kotak produk */
+    margin: 0 auto;
+    width: 100%;
+    background-color: #ffffff;
+    gap: 15px; /* Menambahkan gap antar box */
 }
-.product .box-container .box{
-    border: .1rem solid rgba(0, 0, 0, .1);
-    border-radius: 1rem;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    background: #EDEDED;
-    flex: 1 1 30rem;
-}
-.product .box-container .content{
-    padding: 1.5rem;
-}
-.product .box-container .box img{
-    height: 18rem;
 
-    margin: 3rem 0rem;
+.product .box-container .frameimg{
+    flex: 1 1 calc(30% - 20px);
+    margin-bottom: 20px;
+    min-width: 200px; /* Ukuran minimum */
+    width: 30%;
+    height: 20%;
+    border-radius: 10px;
+    box-sizing: border-box;
+    background-color: #ffffff;
+    overflow:hidden;
+    text-align: center;
+    box-shadow: 0 .5rem 3rem rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+ }
+
+ .product .box-container .frameimg img{
+    width: 60%;
+    height: 30%;
+    object-fit: cover;
+    z-index: 1;
+ }
+ 
+ .frameimg a[target="_blank"] {
+    display: block;
+    color: #333;
+    font-weight: bold;
+    text-decoration: none;
+    margin-top: 15px; /* Adjust the margin-top value */
+    margin-bottom: 15px; /* Adjust the margin-bottom value */
+    font-size: 16px; /* Adjust the font size as needed */
+    text-align: center;
+    font-family: "Roboto Slab";
 }
-.product .box-container .box:hover img{
+
+.product .box-container .frameimg .circle{ 
+    background-color: #afafaf;
+    width: 40px; /* Sesuaikan ukuran lingkaran */
+    height: 40px;
+    display: flex; /* Gunakan Flexbox untuk membuat ikon di tengah */
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    margin-left: 87%;
+    margin-top: 10px;
+ }
+
+ .circle .fa-heart {
+    font-size: 2rem;
+}
+
+ .frameimg .circle:hover {
+   color: #EB4511;
+   box-shadow: none; /* Reset shadow for the circle */
+}
+
+ .product .box-container .frameimg  hr {
+    position: relative;
+    width: auto;
+    border: 0.5px solid rgb(224, 224, 224);
+    z-index: 1; /* Pastikan berada di bawah lingkaran */
+}
+
+.product .box-container .frameimg:hover {
+    outline: 1px solid black;
+}
+
+.product .box-container .frameimg:hover img{
     transform: scale(1.2);
 }
-.product .box-container .box .icons{
-    display: flex;
-    flex-flow: column;
-    position: absolute;
-    top: .5rem;
-    left: 1rem;
-}
-.product .box-container .box .icons a{
-    height: 4.5rem;
-    width: 5rem;
-    line-height: 4.5rem;
-    font-size: 2rem;
-    color: #000;
-    border: .1rem solid #000;
-    border-radius: .5rem;
-    background: #fff;
-    margin-top: .5rem;
-}
-.product .box-container .box .icons{
-    display: flex;
-    flex-flow: column;
-    position: absolute;
-    top: .5rem;
-    left: -10rem;
-}
-.product .box-container .box:hover .icons{
-    left: 1rem;
-}
-.product .box-container .box .icons a:hover{
-    color: orangered;
-    color: #fff;
-}
+
+
+
 .product .box-container .box .content h3{
     color: #000;
     font-size: 2rem;
-    margin-bottom: 10;
+    margin-top: 20;
+    margin-bottom: 20;
+    flex-wrap: wrap;
 }
-.product .box-container .box .content .price{
-    color: #000;
-    font-size: 2.5rem;
-    font-weight: bolder;
-    padding: 1rem 0;
-}
-.product .box-container .box .content .price span{
-    color: #000;
+
+.products-preview {
+    position: fixed;
+    top:0%; left:0;
+    width: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    height: auto; /* atau nilai spesifik lainnya */
+    transition: all 0.3s ease;
+    z-index: 2;
+    display: none;
+ }
+
+ .products-preview .preview{
+    padding:2rem;
+    display: flex;
+    background: #fff;
+    position: relative;
+    height: 500px;
+    width: 100rem;
+    z-index: 10;
+    left: 0%;
+    margin-top:5% ;
+    border-radius: 20px;
+    
+
+ }
+
+ .products-preview .preview.active{
+    display: inline-block;
+ }
+ 
+ .products-preview .previewimg{
+    background-color: #949494;
+    height: 100%;
+    width: 50%;
+    display: flex; /* Menetapkan display flex pada container */
+    align-items: center; /* Pusatkan item di sumbu vertikal */
+    justify-content: center; /* Pusatkan item di sumbu horizontal */
+    border-radius: 10px;
+ }
+
+ .products-preview .previewimg img{
+   height: 65%;
+    width: 80%;
+ }
+
+ .description{
+    position: relative;
+    background-color: #ffffff;
+    width: 45%;
+    height: 100%;
+    right: -50%;
+    top: -102%;
+    padding: 10px;
+    display: flex; /* Menggunakan flexbox */
+    align-items: center; /* Menengahkan konten secara vertikal */
+ }
+
+ .description hr{
+    margin-bottom: 1rem;
+ }
+
+ .framedes{
+    width: 100%;
+ }
+
+ .size{
     font-size: 1.5rem;
-    text-decoration: line-through;
+ }
+
+ .size span{
+    margin-top: 2px;
+    display: inline-block;
+    margin-right: 10px;
+    background-color: #ffffff;
+    width: 4rem;
+    outline: 1px solid black;
+    text-align: center;
+    border-radius: 3px;
+ }
+
+ .color{
+    margin-top:1rem;
+    font-size: 1.5rem;
+ }
+
+ .color div{
+    margin-top: 2px;
+    margin-right: 10px;
+    background-color: #ff0000;
+    height: 3rem;
+    width: 3rem;
+    outline: 1px solid black;
+    text-align: center;
+    border-radius: 3rem;
+ }
+
+ .preview-img, .description {
+    flex: 1; /* This allows both the image and description to take equal space */
+    margin: 10px;
 }
+
+ .products-preview .preview .fa-times{
+    position: absolute;
+    top:1rem; right:1.5rem;
+    cursor: pointer;
+    color:#444;
+    font-size: 4rem;
+ }
+ 
+ 
+ .products-preview .preview .fa-times:hover{
+    transform: rotate(90deg);
+ }
+
+
+ .products-preview .preview .buttons{
+    display: flex;
+    gap:1.5rem;
+    flex-wrap: wrap;
+    margin-top: 2rem;
+    text-align: center;
+
+ }
+ 
+ .products-preview .preview .buttons a.fa-heart {
+    display: inline-flex; /* Makes the anchor behave like a flex container */
+    align-items: center; /* Centers content vertically */
+    justify-content: center; /* Centers content horizontally */
+}
+
+
+ .products-preview .preview .buttons a{
+    flex:1 1 16rem;
+    padding:0.5rem;
+    font-size: 1.5rem;
+    color:#444;
+    border:.1rem solid #444;
+ }
+ 
+ .products-preview .preview .buttons a.fa-heart{
+    background: #ffffff;
+    color:#000000;
+ }
+ 
+ .products-preview .preview .buttons a.fa-heart:hover{
+    background: #000000;
+    color: #EB4511;
+ }
+ 
+ .products-preview .preview .buttons a.buy:hover{
+    background: #444;
+    color:#fff;
+ }
+
+ .products-preview .preview h3{
+    color:#000000;
+    font-family: "Roboto Slab";
+    font-size: 2.5rem;
+ }
+
+ .products-preview .preview p{
+    line-height: 1.5;
+    font-size: 2.2rem;
+    color:#000000;
+    right: 1rem;
+    font-family: "Roboto Slab";
+ }
+
+
+ @media (max-width: 60px) {
+    .preview {
+        width: 80%; /* Lebar box berkurang */
+        height: auto; /* Menyesuaikan tinggi secara otomatis */
+    }
+}
+
+/* Anda dapat menambahkan lebih banyak breakpoints jika diperlukan */
+@media (max-width: 40px) {
+    .preview {
+        width: 60%; /* Lebih kecil lagi untuk layar yang sangat kecil */
+    }
+}
+
+@media (max-width:991px){
+
+    html{
+       font-size: 55%;
+    }
+ 
+ }
+ 
+ @media (max-width:768px){
+ 
+    .products-preview .preview img{
+       height: 25rem;
+    }
+ 
+ }
+ 
+ @media (max-width:450px){
+ 
+    html{
+       font-size: 50%;
+    }
+ 
+ }
+
 /* end product  */
 
 .frame2{
@@ -365,6 +616,7 @@ section{
     height: 10%;
     margin-top: 5%;
     margin-bottom: 5%;
+    z-index: 1;
 }
 .frame2 .contenttext{
     position:relative;
@@ -377,6 +629,7 @@ section{
     height: 100%; /* Tinggi penuh dari parent */
     width: 50%; /* Lebar 50% dari frame2 */
     gap: 1rem; /* Jarak antar baris teks */
+    z-index: 1;
 }   
 
 .frame2 .contenttext .kata{
@@ -399,7 +652,7 @@ section{
     text-align: center;
     overflow: hidden; /* Ensure the image does not overflow */
     height: auto;
-    border-radius: 8px;
+    z-index: 0;
 }
 
 .contentimg img{
@@ -540,6 +793,11 @@ body{
 ul{
 	list-style: none;
 }
+
+.blog{
+    margin-bottom: 10%;
+}
+
 .footer{
 	background-color: #3E3E3E;
     padding: 37px 0;
@@ -648,6 +906,95 @@ ul{
 }
 }
 
+.popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 9999;
+  }
+  
+  .popup-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    text-align: center;
+  }
+  
+  .popup-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .popup-description {
+    margin-bottom: 10px;
+  }
+  
+  .popup-thumbnail {
+    width: 200px;
+    height: auto;
+    margin-bottom: 10px;
+  }
+  
+  .popup-retail-price {
+    margin-bottom: 10px;
+  }
+  
+  .popup-resell-links {
+    display: block;
+    margin-bottom: 10px;
+  }
+  
+  .popup-close {
+    background-color: #ccc;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+  }
 
+  /* Modal styles */
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0,0,0); /* Fallback color */
+    background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  }
+  
+  .modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; /* Could be more or less, depending on screen size */
+  }
+  
+  .close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+  }
+  
+  .close:hover,
+  .close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+  }
+  
 
 
