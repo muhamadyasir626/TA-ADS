@@ -121,8 +121,6 @@ html{
 
 .loginpage .frame-1 .frame-2 .frame-3 .container2{
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   width: 45rem;
   box-sizing: border-box;
   background-color: #ffffff;
@@ -161,11 +159,11 @@ input[type="checkbox"] {
   height: 1.3rem;
 }
 
-.loginpage .frame-1 .frame-2 .frame-3 .container1  .remember-me{
+.loginpage .frame-1 .frame-2 .frame-3 .container2 .remember-me{
   position: relative;
   font-family: "Roboto Slab";
-  font-size: 1.3rem;
-  margin-top:3.9%;
+  margin-top: 1.2rem;
+  align-items: bottom;
 }
 
 .loginpage .frame-1 .frame-2 .frame-3 .container1 .forgot-password{
