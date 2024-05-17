@@ -18,7 +18,46 @@
       "savedConnectionType": "favorite",
       "connectionOptions": {
         "connectionString": "mongodb://localhost:27017/",
-        "oidc": {}
+        "oidc": {
+          "serializedState": "eyJvaWRjUGx1Z2luU3RhdGVWZXJzaW9uIjowLCJzdGF0ZSI6W119"
+        }
+      }
+    },
+    {
+      "id": "874d5ad5-ad07-498c-a2e3-f49365ba53a5",
+      "lastUsed": {
+        "$date": {
+          "$numberLong": "1715937453198"
+        }
+      },
+      "favorite": {
+        "name": "Fix database (copy)",
+        "color": "color2"
+      },
+      "savedConnectionType": "favorite",
+      "connectionOptions": {
+        "connectionString": "mongodb://localhost:27017/",
+        "oidc": {
+          "serializedState": "eyJvaWRjUGx1Z2luU3RhdGVWZXJzaW9uIjowLCJzdGF0ZSI6W119"
+        }
+      }
+    },
+    {
+      "id": "ea74f95a-a8cd-4475-b462-aeaee077558e",
+      "lastUsed": {
+        "$date": {
+          "$numberLong": "1715894259805"
+        }
+      },
+      "favorite": {
+        "name": "Sneaker Scout"
+      },
+      "savedConnectionType": "favorite",
+      "connectionOptions": {
+        "connectionString": "mongodb+srv://muhamadyasir626:nexussoul626@sneakerscout.y3camlm.mongodb.net/",
+        "oidc": {
+          "serializedState": "eyJvaWRjUGx1Z2luU3RhdGVWZXJzaW9uIjowLCJzdGF0ZSI6W119"
+        }
       }
     }
   ]
