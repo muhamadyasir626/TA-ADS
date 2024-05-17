@@ -17,8 +17,32 @@ const user = new mongoose.Schema({
   
 });
 
-const collection = new mongoose.model("user", user);
+const wishlist_schema = new mongoose.Schema({
+  userId: mongoose.Types.ObjectId,
+  shoeName: String,
+  brand: String,
+  releaseDate: Date,
+  description: String,
+  colorway: String,
+  make: String,
+  retailPrice: Number,
+  styleID: String,
+  thumbnail: String,
+  resellLinks: {
+    goat: String,
+    flightClub: String,
+    stockX: String
+  },
+  lowestResellPrice: {
+    stockX: Number,
+    flightClub: Number,
+    goat: Number
+  }
+});
 
-module.exports = collection;
+const collection = new mongoose.model("users", user);
+const wishlist = new mongoose.model("wishlist", wishlist_schema);
+
+module.exports = collection, wishlist;
 
 

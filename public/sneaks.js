@@ -1,21 +1,17 @@
-
 document.addEventListener("DOMContentLoaded", () => {
   const formEl = document.querySelector("form");
   const inputEl = document.getElementById("cari");
   const searchResult = document.querySelector(".box-container");
   const showMoreBtn = document.getElementById("show-more");
-  const popUp1 = document.getElementById("detail1")
-  const popUp2 = document.getElementById("detail2")
-
 
   let inputData = "";
   let limit = 9;
   let offset = 0;
 
   async function searchSneaker(clear = true) {
-    inputData = inputEl.value ;
+    inputData = inputEl.value;
     try {
-      const response = await fetch(`/api/search?q=${inputData}&limit=${limit}&offset=${offset}`);
+      const response = await fetch(`/api/search?q=${encodeURIComponent(inputData)}&limit=${limit}&offset=${offset}`);
       if (!response.ok) {
         throw new Error(`Error: ${response.status} - ${response.statusText}`);
       }
@@ -32,155 +28,274 @@ document.addEventListener("DOMContentLoaded", () => {
       searchResult.innerHTML = ""; // Clear previous results
     }
 
-    products.forEach((result) => {
-      const frameImg = document.createElement("div");
-      frameImg.classList.add("frameimg");
-
-      // Create heart icon container
-      const heartIconContainer = document.createElement("div");
-      heartIconContainer.classList.add("circle");
-
-      const heartIcon = document.createElement("i");
-      heartIcon.classList.add("fa", "fa-heart");
-
-      heartIconContainer.appendChild(heartIcon);
-
-      // Create and set sneaker image
-      const image = document.createElement("img");
-      image.src = result.thumbnail;
-      image.alt = result.styleID;
-
-      // Create link to resell site
-      const imageLink = document.createElement("a");
-      // imageLink.href = result.resellLinks;
-      imageLink.target = "_blank"; // Open in a new tab
-      imageLink.textContent = result.shoeName;
-
-      // Append elements in the desired structure
-      frameImg.appendChild(heartIconContainer);
-      frameImg.appendChild(image);
-      frameImg.appendChild(document.createElement("hr"));
-      frameImg.appendChild(imageLink);
-
+    products.forEach(product => {
+      const frameImg = createSneakerElement(product);
       searchResult.appendChild(frameImg);
     });
   }
 
+  function createSneakerElement(result) {
+    const frameImg = document.createElement("div");
+    frameImg.classList.add("frameimg");
+
+    const heartIconContainer = document.createElement("div");
+    heartIconContainer.classList.add("circle");
+   
+
+    const heartIcon = document.createElement("i");
+    heartIcon.classList.add("fa", "fa-heart");
+    heartIconContainer.appendChild(heartIcon);
+
+    const image = document.createElement("img");
+    image.src = result.thumbnail;
+    image.alt = result.styleID;
+    image.addEventListener('click', (event) => {
+      event.preventDefault(); // Prevent default link behavior
+      showPopUp_search(result);
+    });
+
+    const imageLink = document.createElement("a");
+    imageLink.textContent = result.shoeName;
+    imageLink.addEventListener('click', (event) => {
+      event.preventDefault(); // Prevent default link behavior
+      showPopUp_search(result);
+    });
+
+    frameImg.appendChild(heartIconContainer);
+    frameImg.appendChild(image);
+    frameImg.appendChild(imageLink);
+
+    return frameImg;
+  }
+
+  function showPopUp_search(sneaker) {
+    if (!sneaker) {
+      console.error('Error: Sneaker data is missing');
+      return;
+    }
+
+    const popUp = document.createElement('div');
+    popUp.className = 'pop-up';
+    popUp.innerHTML = `
+      <div class="pop-up-content">
+        <span class="close-button">&times;</span>
+        <img src="${sneaker.thumbnail}" alt="${sneaker.styleID}" style="max-width: 90%; margin-bottom: 20px;"/>
+        <h3>${sneaker.shoeName}</h3>
+        <p>ID: ${sneaker.styleID}</p>
+        <p>Brand: ${sneaker.brand}</p>
+        <p>Release Date: ${sneaker.releaseDate}</p>
+        <p>Colorway: ${sneaker.colorway}</p>
+        <p>Description: ${sneaker.description}</p>
+        <p>Retail Price: $${sneaker.retailPrice}</p>
+        <div class="resell-links">
+            <a href="${sneaker.resellLinks?.stockX}" target="_blank">StockX</a> | 
+            <a href="${sneaker.resellLinks?.goat}" target="_blank">Goat</a> | 
+            <a href="${sneaker.resellLinks?.flightClub}" target="_blank">Flight Club</a>
+        </div>
+      </div>
+    `;
+
+    popUp.querySelector('.close-button').addEventListener('click', () => {
+      document.body.removeChild(popUp);
+    });
+
+    document.body.appendChild(popUp);
+  }
+
   formEl.addEventListener("submit", (event) => {
     event.preventDefault();
-    offset = 0; // Reset offset when starting a new search
-    searchSneaker(true); // Clear previous results
+    offset = 0; // Reset offset to zero to start from the beginning
+    searchSneaker(true);
   });
 
   showMoreBtn.addEventListener("click", () => {
-    offset += limit; // Increment offset by limit
-    searchSneaker(false); // Don't clear previous results
+    offset += limit;
+    searchSneaker(false); // Do not clear previous results
   });
-
 });
 
-//display most popular 1
 document.addEventListener("DOMContentLoaded", () => {
   fetchMostPopularSneakers();
 
   function fetchMostPopularSneakers() {
-      fetch('/api/most-popular')
-          .then(response => response.json())
-          .then(sneakers => {
-              const container = document.getElementById('sneaker-mostpopular1');
-              container.innerHTML = ''; // Clear existing content
-              sneakers.map(sneaker => {
-                  container.appendChild(createSneakerCard(sneaker));
-              });
-          })
-          .catch(error => console.error('Error fetching most popular sneakers:', error));
-  }
-
-  function createSneakerCard(sneaker) {
-      const frameImg = document.createElement('div');
-      frameImg.className = 'frameimg';
-
-      const circle = document.createElement('div');
-      circle.className = 'circle';
-      const heartIcon = document.createElement('i');
-      heartIcon.className = 'fa fa-heart';
-      circle.appendChild(heartIcon);
-
-      const image = document.createElement('img');
-      image.src = sneaker.thumbnail;
-      image.alt = sneaker.styleID;
-
-      const link = document.createElement('a');
-      // link.href = sneaker.resellLinks;
-      link.target = '_blank';
-      link.textContent = sneaker.shoeName;
-    link.addEventListener('click', (popUp) => {
-      popUp.preventDefault;
-      showpopUp(sneaker);
+    fetch('/api/most-popular')
+      .then(response => response.json())
+      .then(sneakers => {
+        const container = document.getElementById('sneaker-mostpopular1');
+        container.innerHTML = ''; // Clear existing content
+        sneakers.map(sneaker => {
+          container.appendChild(createSneakerCard(sneaker));
+        });
       })
+      .catch(error => console.error('Error fetching most popular sneakers:', error));
+  }
 
-      const hr = document.createElement('hr');
+  function createSneakerCard(sneaker) {
+    const frameImg = document.createElement('div');
+    frameImg.className = 'frameimg';
 
-      frameImg.appendChild(circle);
-      frameImg.appendChild(image);
-      frameImg.appendChild(hr);
-      frameImg.appendChild(link);
+    const circle = document.createElement('div');
+    circle.className = 'circle';
+    const heartIcon = document.createElement('i');
+    heartIcon.className = 'fa fa-heart';
+    circle.appendChild(heartIcon);
+    
 
-      return frameImg;
-  }    
+    const image = document.createElement('img');
+    image.src = sneaker.thumbnail;
+    image.alt = sneaker.styleID;
+    image.addEventListener('click', () => {
+      showPopUp(sneaker);
+    });
+
+    const link = document.createElement('a');
+    link.href = sneaker.resellLinks.goat;
+    link.target = '_blank';
+    link.textContent = sneaker.shoeName;
+    link.addEventListener('click', (event) => {
+      event.preventDefault();
+      showPopUp(sneaker);
+    });
+
+    frameImg.appendChild(circle);
+    frameImg.appendChild(image);
+    frameImg.appendChild(link);
+
+    return frameImg;
+  }
+
+  function showPopUp(sneaker) {
+    // Tambahkan pengecekan untuk menghindari error
+    if (!sneaker.lowestResellPrice || !sneaker.resellLinks) {
+      console.log(sneaker);
+      console.error('Error: Missing resell prices or links');
+      return; // Hentikan eksekusi jika data tidak lengkap
+    }
+
+    const popUp = document.createElement('div');
+    popUp.className = 'pop-up';
+    popUp.innerHTML = `
+    <div class="pop-up-content">
+    <span class="close-button">&times;</span>
+    <img src="${sneaker.thumbnail}" alt="${sneaker.styleID}" style="max-width: 90%; margin-bottom: 20px;"/>
+    <h3>${sneaker.shoeName||' -'}</h3>
+    <p>ID: ${sneaker.styleID||' -'}</p>
+    <p>Brand: ${sneaker.brand||' -'}</p>
+    <p>Release Date: ${sneaker.releaseDate||' -'}</p>
+    <p>Colorway: ${sneaker.colorway||' -'}</p>
+    <p>Description: ${sneaker.description||' -'}</p>
+    <p>Retail Price: $${sneaker.retailPrice||' -'}</p>
+    <div class="resell-links">
+        <a href="${sneaker.resellLinks?.stockX || '/not-found'}" target="_blank">StockX</a> | 
+        <a href="${sneaker.resellLinks?.goat || '/not-found'}" target="_blank">Goat</a> | 
+        <a href="${sneaker.resellLinks?.flightClub || '/not-found'}" target="_blank">Flight Club</a>
+    </div>
+  </div>
+`;
+
+    // Event to close the pop-up
+    popUp.querySelector('.close-button').addEventListener('click', () => {
+      document.body.removeChild(popUp);
+    });
+
+    // Append pop-up to the body
+    document.body.appendChild(popUp);
+  }
 });
 
-
-// display most popular 2
+// display mostpopular 2
 document.addEventListener("DOMContentLoaded", () => {
   fetchMostPopularSneakers();
 
   function fetchMostPopularSneakers() {
-      fetch('/api/most-popular')
-          .then(response => response.json())
-          .then(sneakers => {
-              const container = document.getElementById('sneaker-mostpopular2');
-              container.innerHTML = ''; // Clear existing content
-              sneakers.forEach(sneaker => {
-                  container.appendChild(createSneakerCard(sneaker));
-              });
-          })
-          .catch(error => console.error('Error fetching most popular sneakers:', error));
+    fetch('/api/most-popular')
+      .then(response => response.json())
+      .then(sneakers => {
+        const container = document.getElementById('sneaker-mostpopular2');
+        container.innerHTML = ''; // Clear existing content
+        sneakers.map(sneaker => {
+          container.appendChild(createSneakerCard(sneaker));
+        });
+      })
+      .catch(error => console.error('Error fetching most popular sneakers:', error));
   }
 
   function createSneakerCard(sneaker) {
-      const frameImg = document.createElement('div');
-      frameImg.className = 'frameimg';
+    const frameImg = document.createElement('div');
+    frameImg.className = 'frameimg';
 
-      const circle = document.createElement('div');
-      circle.className = 'circle';
-      const heartIcon = document.createElement('i');
-      heartIcon.className = 'fa fa-heart';
-      circle.appendChild(heartIcon);
+    const circle = document.createElement('div');
+    circle.className = 'circle';
+    const heartIcon = document.createElement('i');
+    heartIcon.className = 'fa fa-heart';
+    circle.appendChild(heartIcon);
 
-      const image = document.createElement('img');
-      image.src = sneaker.thumbnail;
-      image.alt = sneaker.styleID;
+    const image = document.createElement('img');
+    image.src = sneaker.thumbnail;
+    image.alt = sneaker.styleID;
+    image.addEventListener('click', () => {
+      showPopUp(sneaker);
+    });
 
-      const link = document.createElement('a');
-      // link.href = sneaker.resellLinks;
-      link.target = '_blank';
-      link.textContent = sneaker.shoeName;
+    const link = document.createElement('a');
+    link.href = sneaker.resellLinks.goat;
+    link.target = '_blank';
+    link.textContent = sneaker.shoeName;
+    link.addEventListener('click', (event) => {
+      event.preventDefault();
+      showPopUp(sneaker);
+    });
 
-      const hr = document.createElement('hr');
 
-      frameImg.appendChild(circle);
-      frameImg.appendChild(image);
-      frameImg.appendChild(hr);
-      frameImg.appendChild(link);
+    frameImg.appendChild(circle);
+    frameImg.appendChild(image);
+    frameImg.appendChild(link);
 
-      return frameImg;
+    return frameImg;
+  }
+
+  function showPopUp(sneaker) {
+    // Tambahkan pengecekan untuk menghindari error
+    if (!sneaker.lowestResellPrice || !sneaker.resellLinks) {
+      console.log(sneaker);
+      console.error('Error: Missing resell prices or links');
+      return; // Hentikan eksekusi jika data tidak lengkap
+    }
+
+    const popUp = document.createElement('div');
+    popUp.className = 'pop-up';
+    popUp.innerHTML = `
+    <div class="pop-up-content">
+      <span class="close-button">&times;</span>
+      <img src="${sneaker.thumbnail}" alt="${sneaker.styleID}" style="max-width: 90%; margin-bottom: 20px;"/>
+      <h3>${sneaker.shoeName||' -'}</h3>
+      <p>ID: ${sneaker.styleID||' -'}</p>
+      <p>Brand: ${sneaker.brand||' -'}</p>
+      <p>Release Date: ${sneaker.releaseDate||' -'}</p>
+      <p>Colorway: ${sneaker.colorway||' -'}</p>
+      <p>Description: ${sneaker.description||' -'}</p>
+      <p>Retail Price: $${sneaker.retailPrice||' -'}</p>
+      <div class="resell-links">
+          <a href="${sneaker.resellLinks?.stockX || '/not-found'}" target="_blank">StockX</a> | 
+          <a href="${sneaker.resellLinks?.goat || '/not-found'}" target="_blank">Goat</a> | 
+          <a href="${sneaker.resellLinks?.flightClub || '/not-found'}" target="_blank">Flight Club</a>
+      </div>
+    </div>
+  `;
+
+    // Event to close the pop-up
+    popUp.querySelector('.close-button').addEventListener('click', () => {
+      document.body.removeChild(popUp);
+    });
+
+    // Append pop-up to the body
+    document.body.appendChild(popUp);
   }
 });
 
 
 
 
- 
+
 
 

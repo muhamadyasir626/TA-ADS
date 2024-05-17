@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const bcrypt = require('bcrypt');
 const collection = require('./db');
+// const wishlist = require('./db');
 const async = require('hbs/lib/async');
 const app = express();
 const port = 443;
@@ -72,9 +73,9 @@ app.get('/sneaker-login', (req, res) => {
 
 // New route to handle sneaker search via Sneaks API
 app.get('/api/search', (req, res) => {
-  const query = req.query.q || 'Nike';
-  const limit = parseInt(req.query.limit) || 9;
-  const offset = parseInt(req.query.offset) || 0;
+  const query = req.query.q || 'Nike';  // Default search query
+  const limit = parseInt(req.query.limit, 10) || 9;  // Default limit
+  const offset = parseInt(req.query.offset, 10) || 0;  // Default offset
 
   console.log(`Searching for sneakers with query: ${query}, limit: ${limit}, and offset: ${offset}`);
 
@@ -84,18 +85,37 @@ app.get('/api/search', (req, res) => {
       return res.status(500).json({ error: 'Product not found or error occurred.' });
     }
 
+    if (!products || !Array.isArray(products)) {
+      console.error('Invalid products array received');
+      return res.status(500).json({ error: 'Invalid product data received.' });
+    }
+
     const slicedProducts = products.slice(offset, offset + limit);
-    const formattedProducts = slicedProducts.map((product) => ({
-      shoeName: product.shoeName,
-      brand: product.brand,
-      colorway: product.colorway,
-      make: product.make,
-      retailPrice: product.retailPrice,
-      styleID: product.styleID,
-      thumbnail: product.thumbnail,
-      description: product.description,
-      resellLinks: product.resellLinks.stockX
-    }));
+    const formattedProducts = slicedProducts.map((product) => {
+      return {
+        shoeName: product.shoeName,
+        brand: product.brand,
+        releaseDate: product.releaseDate,
+        description: product.description,
+        colorway: product.colorway,
+        make: product.make,
+        retailPrice: product.retailPrice,
+        styleID: product.styleID,
+        thumbnail: product.thumbnail,
+        description: product.description,
+        resellLinks: {
+          goat: product.resellLinks.goat,
+          flightClub: product.resellLinks.flightClub,
+          stockX: product.resellLinks.stockX,
+
+        },
+        lowestResellPrice: {
+          stockX: product.lowestResellPrice.stockX,
+          flightClub: product.lowestResellPrice.flightClub,
+          goat: product.lowestResellPrice.goat,
+        }
+      };
+    });
 
     res.json(formattedProducts);
   });
@@ -130,7 +150,9 @@ app.post('/signup', async (req, res) => {
     };
 
     // Save user data to the database
+    // const insertedUserData = await collection_register.insertMany([userDataToInsert]);
     const insertedUserData = await collection.insertMany([userDataToInsert]);
+    console.log(insertedUserData)
 
     // Respond with a success message
     console.log("Registration successful. Please log in.");
@@ -192,25 +214,39 @@ app.get('/api/most-popular', (req, res) => {
     }
 
     const slicedProducts = products.slice(offset, offset + limit);
-    const formattedProducts = slicedProducts.map((product) => ({
-      shoeName: product.shoeName,
-      brand: product.brand,
-      colorway: product.colorway,
-      make: product.make,
-      retailPrice: product.retailPrice,
-      styleID: product.styleID,
-      thumbnail: product.thumbnail,
-      description: product.description,
-      resellLinks: product.resellLinks.stockX
-    }));
+    const formattedProducts = slicedProducts.map((product) => {
+      return {
+        shoeName: product.shoeName,
+        brand: product.brand,
+        releaseDate: product.releaseDate,
+        description: product.description,
+        colorway: product.colorway,
+        make: product.make,
+        retailPrice: product.retailPrice,
+        styleID: product.styleID,
+        thumbnail: product.thumbnail,
+        description: product.description,
+        resellLinks: {
+          goat: product.resellLinks.goat,
+          flightClub: product.resellLinks.flightClub,
+          stockX: product.resellLinks.stockX,
+
+        },
+        lowestResellPrice: {
+          stockX: product.lowestResellPrice.stockX,
+          flightClub: product.lowestResellPrice.flightClub,
+          goat: product.lowestResellPrice.goat,
+        }
+      };
+    });
 
     res.json(formattedProducts);
   });
 });
-
-//pop up 
-
-
+ 
+app.get('/not-found', (req, res) => {
+  res.status(404).send("404 - Page Not Found");
+});
 
 
 // 404 Error Page
