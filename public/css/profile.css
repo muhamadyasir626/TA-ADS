@@ -148,8 +148,10 @@ header .navbar .button:hover{
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  width: 40%; /* Lebar kotak div */
-  height: 60%; /* Tinggi kotak div */
+  max-width: 500px;
+  min-width:550px;
+  width: 500px; /* Lebar kotak div */
+  height: 400px; /* Tinggi kotak div */
   border-radius: 50px;
   box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
 }
@@ -186,6 +188,13 @@ header .navbar .button:hover{
   align-items: center;
 }
 
+.user span{
+  display: flex;
+  font-size: 2rem;
+  margin-top: 10px;
+}
+
+
 .user img {
   border-radius: 50%;
   object-fit: cover;
@@ -198,6 +207,7 @@ header .navbar .button:hover{
 .user2 {
   width: 50%;
   padding: 2rem;
+  min-width: 200px
 }
 
 .button {
@@ -227,7 +237,8 @@ header .navbar .button:hover{
 }
 
 .user .fa-camera {
-  font-size: 1.5rem;
+  font-size: 1.9rem;
+  align-items: center;
 }
 
 hr {
@@ -255,13 +266,23 @@ th {
   padding: 0.5rem;
   padding-left: 1rem;
   padding-right: 1rem;
-  border-radius: 1rem;
+  border-radius: 0.5rem;
   margin-top: 70px;
+  display: block; /* Membuat button menjadi block level element */
+  margin-left: auto; /* Margin kiri otomatis */
+  margin-right: auto; /* Margin kanan otomatis */
+  width: fit-content; /* Opsional: Mengatur lebar tombol berdasarkan kontennya */
+  cursor: pointer;
+}
+
+.button1:hover {
+  background-color: #EB4511;
+  color: #ffffff;
 }
 
 /* Media Queries */
-@media (max-width: 768px) {
-  .profileuser2 {
+@media (max-width: 73px) {
+  .profileuser, .profileuser2 {
     flex-direction: column; /* Stacks the flex children vertically */
   }
 

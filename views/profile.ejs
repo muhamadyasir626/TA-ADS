@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>User Profile</title>
-  <link rel="stylesheet" href="/css/profile.css">
+  <link rel="stylesheet" href="/public/css/profile.css">
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=Edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -48,6 +48,7 @@
               <img src="/img/home-login/slide/j1.png" id="photo">
               <input type="file" id="file">
               <label for="file" id="uploadbtn"><i class="fas fa-camera"></i></label>
+              <Span>USERNAME</span>
             </div>
             <hr>
             <div class="user2">
@@ -73,7 +74,7 @@
                     <td><%= user ? user.email : "N/A" %></td>
                 </tr>
             </table>
-            <button class= "button1" type = "submit" name = "login">Sign In</button>
+            <button class= "button1" type = "submit" name = "login">Update Profile</button>
             </div>
               
               </form>
