@@ -1,3 +1,4 @@
+
 let menu = document.querySelector('#menu-bar');
 let navbar = document.querySelector('.navbar');
 
@@ -42,59 +43,3 @@ document.querySelectorAll('.featured-image-3').forEach(image_3 =>{
     });
 });
 
-let preveiwContainer = document.querySelector('.products-preview');
-let previewBox = preveiwContainer.querySelectorAll('.preview');
-
-document.querySelectorAll('.box-container .frameimg').forEach(product =>{
-  product.onclick = () =>{
-    preveiwContainer.style.display = 'flex';
-    let name = product.getAttribute('data-name');
-    previewBox.forEach(preview =>{
-      let target = preview.getAttribute('data-target');
-      if(name == target){
-        preview.classList.add('active');
-      }
-    });
-  };
-});
-
-previewBox.forEach(close =>{
-  close.querySelector('.fa-times').onclick = () =>{
-    close.classList.remove('active');
-    preveiwContainer.style.display = 'none';
-  };
-});
-
-document.addEventListener('DOMContentLoaded', function () {
-  var heartButtons = document.querySelectorAll('.circle i'); // Selektor spesifik untuk ikon di dalam .circle
-
-  heartButtons.forEach(function(icon) {
-      icon.addEventListener('click', function(event) {
-          event.stopPropagation(); // Mencegah event menggelembung ke .frameimg
-          icon.classList.toggle('heart-active'); // Toggle kelas untuk mengubah warna
-      });
-  });
-
-  document.querySelectorAll('.box-container .frameimg').forEach(product => {
-      product.onclick = () => {
-          if (!product.contains(event.target.closest('.circle'))) { // Cek jika klik bukan pada .circle
-              preveiwContainer.style.display = 'flex';
-              let name = product.getAttribute('data-name');
-              previewBox.forEach(preview => {
-                  let target = preview.getAttribute('data-target');
-                  if (name == target) {
-                      preview.classList.add('active');
-                  }
-              });
-          }
-      };
-  });
-
-  let previewBox = document.querySelectorAll('.preview');
-  previewBox.forEach(close => {
-      close.querySelector('.fa-times').onclick = () => {
-          close.classList.remove('active');
-          preveiwContainer.style.display = 'none';
-      };
-  });
-});
