@@ -78,60 +78,54 @@ document.addEventListener("DOMContentLoaded", () => {
  const popUp = document.createElement('div');
  popUp.className = 'pop-up';
     popUp.innerHTML = `
-  <link rel="stylesheet" href="/css/home-login.css">
-   <div class="preview" data-target="p-1">
-     <div class="previewimg">
-       <img src="${sneaker.thumbnail}" alt="${sneaker.styleID}">
-     </div>
-     <i class="fas fa-times"></i>
-     <div class="description">
-       <div class="framedes">
-         <h3>${sneaker.shoeName}</h3>
-         <hr>
-         <p>Start from $${sneaker.retailPrice}</p>
-         <a>${sneaker.description}</a>
-         <div class="info">
-           <div class="brand">
-             <a>Brand: <b class="nama">${sneaker.brand}</b></a>
-           </div>
-           <a>Release Date: <b class="nama">${sneaker.releaseDate}</b></a>
-           <div class="color">
-             <a>Color: ${sneaker.colorway}</a>
-             <div class="color">
-               <span></span>
-             </div>
-           </div>
-         </div>
-         <div class="toko">
-           <button class="btn">
-             <a href="${sneaker.resellLinks?.stockX}" target="_blank" class="btn__visible">
-               <img src="/public/img/home-login/logo/stockx.png" alt="StockX Logo" class="log">
-             </a>
-             <a href="${sneaker.resellLinks?.stockX}" target="_blank" class="btn__invisible">Harga: $${sneaker.prices?.stockX}</a>
-           </button>
-           <button class="btn">
-             <a href="${sneaker.resellLinks?.flightClub}" target="_blank" class="btn__visible">
-               <img src="/public/img/home-login/logo/flight.png" alt="Flight Club Logo" class="log">
-             </a>
-             <a href="${sneaker.resellLinks?.flightClub}" target="_blank" class="btn__invisible">Harga: $${sneaker.prices?.flightClub}</a>
-           </button>
-           <button class="btn">
-             <a href="${sneaker.resellLinks?.goat}" target="_blank" class="btn__visible">
-               <img src="/public/img/home-login/logo/GOAT-Logo.png" alt="GOAT Logo" class="log">
-             </a>
-             <a href="${sneaker.resellLinks?.goat}" target="_blank" class="btn__invisible">Harga: $${sneaker.prices?.goat}</a>
-           </button>
-           <button class="hearts">
-             <a href="#" class="like">
-               <i class="fas fa-heart"></i> <!-- Ikon hati Font Awesome -->
-             </a>
-           </button>
-         </div>
-       </div>
-     </div>
-   </div>
-   
- `;
+    <div class="pop-up-content">
+    <span class="close-button">&times;</span>
+    <div class="previewimg">
+      <img src="${sneaker.thumbnail}" alt="${sneaker.styleID}">
+    </div>
+    <div class="description">
+      <div class="framedes">
+        <h3>${sneaker.shoeName}</h3>
+        <hr>
+        <p>Start from $${sneaker.retailPrice}</p>
+        <a>${sneaker.description}</a>
+        <div class="info">
+          <div class="brand">
+            <a>Brand: <b class="nama">${sneaker.brand}</b></a>
+          </div>
+          <a>Release Date: <b class="nama">${sneaker.releaseDate}</b></a>
+          <a>Color: <b class="nama">${sneaker.colorway}</b></a>
+        </div>
+        <div class="toko">
+          <button class="btn">
+            <a href="${sneaker.resellLinks?.stockX}" target="_blank" class="btn__visible">
+              <img src="/img/home-login/logo/stockx.png" alt="StockX Logo" class="log">
+            </a>
+            <a href="${sneaker.resellLinks?.stockX}" target="_blank" class="btn__invisible">$${sneaker.prices?.stockX}</a>
+          </button>
+          <button class="btn">
+            <a href="${sneaker.resellLinks?.flightClub}" target="_blank" class="btn__visible">
+              <img src="/img/home-login/logo/flight.png" alt="Flight Club Logo" class="log">
+            </a>
+            <a href="${sneaker.resellLinks?.flightClub}" target="_blank" class="btn__invisible">$${sneaker.prices?.flightClub}</a>
+          </button>
+          <button class="btn">
+            <a href="${sneaker.resellLinks?.goat}" target="_blank" class="btn__visible">
+              <img src="/img/home-login/logo/GOAT-Logo.png" alt="GOAT Logo" class="log">
+            </a>
+            <a href="${sneaker.resellLinks?.goat}" target="_blank" class="btn__invisible">$${sneaker.prices?.goat}</a>
+          </button>
+          <button class="hearts">
+            <a href="#" class="like">
+              <i class="fas fa-heart"></i> <!-- Ikon hati Font Awesome -->
+            </a>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+`;
+
 
 
     popUp.querySelector('.close-button').addEventListener('click', () => {
@@ -265,26 +259,55 @@ document.addEventListener("DOMContentLoaded", () => {
     const popUp = document.createElement('div');
     popUp.className = 'pop-up';
     popUp.innerHTML = `
-    <head>
-    <link rel="stylesheet" href="/css/home-login.css">
-    </head>
     <div class="pop-up-content">
-    <span class="close-button">&times;</span>
-    <img src="${sneaker.thumbnail}" alt="${sneaker.styleID}" style="max-width: 90%; margin-bottom: 20px;"/>
-    <h3>${sneaker.shoeName||' -'}</h3>
-    <p>ID: ${sneaker.styleID||' -'}</p>
-    <p>Brand: ${sneaker.brand||' -'}</p>
-    <p>Release Date: ${sneaker.releaseDate||' -'}</p>
-    <p>Colorway: ${sneaker.colorway||' -'}</p>
-    <p>Description: ${sneaker.description||' -'}</p>
-    <p>Retail Price: $${sneaker.retailPrice||' -'}</p>
-    <div class="resell-links">
-        <a href="${sneaker.resellLinks?.stockX || '/not-found'}" target="_blank">StockX</a> | 
-        <a href="${sneaker.resellLinks?.goat || '/not-found'}" target="_blank">Goat</a> | 
-        <a href="${sneaker.resellLinks?.flightClub || '/not-found'}" target="_blank">Flight Club</a>
+      <span class="close-button">&times;</span>
+      <div class="previewimg">
+        <img src="${sneaker.thumbnail}" alt="${sneaker.styleID}">
+      </div>
+      <div class="description">
+        <div class="framedes">
+          <h3>${sneaker.shoeName}</h3>
+          <hr>
+          <p>Start from $${sneaker.retailPrice}</p>
+          <a class="description-text">${sneaker.description}</a>
+          <div class="info">
+            <div class="brand">
+              <a>Brand: <b class="nama">${sneaker.brand}</b></a>
+            </div>
+            <a>Release Date: <b class="nama">${sneaker.releaseDate}</b></a>
+            <a>Color: <b class="nama">${sneaker.colorway}</b></a>
+          </div>
+          <div class="toko">
+            <button class="btn">
+              <a href="${sneaker.resellLinks?.stockX}" target="_blank" class="btn__visible">
+                <img src="/img/home-login/logo/stockx.png" alt="StockX Logo" class="log">
+              </a>
+              <a href="${sneaker.resellLinks?.stockX}" target="_blank" class="btn__invisible">$${sneaker.lowestResellPrice?.stockX || ' -'}</a>
+            </button>
+            <button class="btn">
+              <a href="${sneaker.resellLinks?.flightClub}" target="_blank" class="btn__visible">
+                <img src="/img/home-login/logo/flight.png" alt="Flight Club Logo" class="log">
+              </a>
+              <a href="${sneaker.resellLinks?.flightClub}" target="_blank" class="btn__invisible">$${sneaker.lowestResellPrice?.flightClub || ' -'}</a>
+            </button>
+            <button class="btn">
+              <a href="${sneaker.resellLinks?.goat}" target="_blank" class="btn__visible">
+                <img src="/img/home-login/logo/GOAT-Logo.png" alt="GOAT Logo" class="log">
+              </a>
+              <a href="${sneaker.resellLinks?.goat}" target="_blank" class="btn__invisible">$${sneaker.lowestResellPrice?.goat || ' -'}</a>
+            </button>
+            <button class="hearts">
+              <a href="#" class="like">
+                <i class="fas fa-heart"></i> <!-- Ikon hati Font Awesome -->
+              </a>
+            </button>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-`;
+  `;
+
+    
 
     // Event to close the pop-up
     popUp.querySelector('.close-button').addEventListener('click', () => {
@@ -365,18 +388,48 @@ document.addEventListener("DOMContentLoaded", () => {
     popUp.innerHTML = `
     <div class="pop-up-content">
       <span class="close-button">&times;</span>
-      <img src="${sneaker.thumbnail}" alt="${sneaker.styleID}" style="max-width: 90%; margin-bottom: 20px;"/>
-      <h3>${sneaker.shoeName||' -'}</h3>
-      <p>ID: ${sneaker.styleID||' -'}</p>
-      <p>Brand: ${sneaker.brand||' -'}</p>
-      <p>Release Date: ${sneaker.releaseDate||' -'}</p>
-      <p>Colorway: ${sneaker.colorway||' -'}</p>
-      <p>Description: ${sneaker.description||' -'}</p>
-      <p>Retail Price: $${sneaker.retailPrice||' -'}</p>
-      <div class="resell-links">
-          <a href="${sneaker.resellLinks?.stockX || '/not-found'}" target="_blank">StockX</a> | 
-          <a href="${sneaker.resellLinks?.goat || '/not-found'}" target="_blank">Goat</a> | 
-          <a href="${sneaker.resellLinks?.flightClub || '/not-found'}" target="_blank">Flight Club</a>
+      <div class="previewimg">
+        <img src="${sneaker.thumbnail}" alt="${sneaker.styleID}">
+      </div>
+      <div class="description">
+        <div class="framedes">
+          <h3>${sneaker.shoeName}</h3>
+          <hr>
+          <p>Start from $${sneaker.retailPrice}</p>
+          <a>${sneaker.description}</a>
+          <div class="info">
+            <div class="brand">
+              <a>Brand: <b class="nama">${sneaker.brand}</b></a>
+            </div>
+            <a>Release Date: <b class="nama">${sneaker.releaseDate}</b></a>
+            <a>Color: <b class="nama">${sneaker.colorway}</b></a>
+          </div>
+          <div class="toko">
+            <button class="btn">
+              <a href="${sneaker.resellLinks?.stockX}" target="_blank" class="btn__visible">
+                <img src="/img/home-login/logo/stockx.png" alt="StockX Logo" class="log">
+              </a>
+              <a href="${sneaker.resellLinks?.stockX}" target="_blank" class="btn__invisible">$${sneaker.prices?.stockX}</a>
+            </button>
+            <button class="btn">
+              <a href="${sneaker.resellLinks?.flightClub}" target="_blank" class="btn__visible">
+                <img src="/img/home-login/logo/flight.png" alt="Flight Club Logo" class="log">
+              </a>
+              <a href="${sneaker.resellLinks?.flightClub}" target="_blank" class="btn__invisible">$${sneaker.prices?.flightClub}</a>
+            </button>
+            <button class="btn">
+              <a href="${sneaker.resellLinks?.goat}" target="_blank" class="btn__visible">
+                <img src="/img/home-login/logo/GOAT-Logo.png" alt="GOAT Logo" class="log">
+              </a>
+              <a href="${sneaker.resellLinks?.goat}" target="_blank" class="btn__invisible">$${sneaker.prices?.goat}</a>
+            </button>
+            <button class="hearts">
+              <a href="#" class="like">
+                <i class="fas fa-heart"></i> <!-- Ikon hati Font Awesome -->
+              </a>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   `;

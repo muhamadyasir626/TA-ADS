@@ -43,3 +43,14 @@ document.querySelectorAll('.featured-image-3').forEach(image_3 =>{
     });
 });
 
+document.addEventListener('DOMContentLoaded', function () {
+    var heartButtons = document.querySelectorAll('.circle i'); // Selektor spesifik untuk ikon di dalam .circle
+  
+    heartButtons.forEach(function(icon) {
+        icon.addEventListener('click', function(event) {
+            event.stopPropagation(); // Mencegah event menggelembung ke .frameimg
+            icon.classList.toggle('heart-active'); // Toggle kelas untuk mengubah warna
+        });
+    });
+  });
+
