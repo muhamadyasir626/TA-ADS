@@ -245,7 +245,7 @@ document.addEventListener("DOMContentLoaded", () => {
   
     return frameImg;
   }
-  
+    
 
 
   function showPopUp(sneaker) {
@@ -344,20 +344,70 @@ document.addEventListener("DOMContentLoaded", () => {
   function createSneakerCard(sneaker) {
     const frameImg = document.createElement('div');
     frameImg.className = 'frameimg';
-
+  
     const circle = document.createElement('div');
     circle.className = 'circle';
     const heartIcon = document.createElement('i');
     heartIcon.className = 'fa fa-heart';
     circle.appendChild(heartIcon);
-
+  
+    heartIcon.addEventListener('click', async (event) => {
+      event.stopPropagation(); // Prevent triggering click events on parent elements
+      heartIcon.classList.toggle('liked');
+      if (heartIcon.classList.contains('liked')) {
+        // Add to wishlist
+        try {
+          const response = await fetch('/add-to-wishlist', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              shoeName: sneaker.shoeName,
+              brand: sneaker.brand,
+              releaseDate: sneaker.releaseDate,
+              description: sneaker.description,
+              colorway: sneaker.colorway,
+              make: sneaker.make,
+              retailPrice: sneaker.retailPrice,
+              styleID: sneaker.styleID,
+              thumbnail: sneaker.thumbnail
+            })
+          });
+          const data = await response.json();
+          if (!response.ok) throw new Error(data.message);
+          alert('Sneaker added to wishlist!');
+        } catch (error) {
+          console.error('Error adding to wishlist:', error);
+          alert(`An error occurred: ${error.message}`);
+        }
+      } else {
+        // Remove from wishlist
+        try {
+          const response = await fetch('/remove-from-wishlist', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ styleID: sneaker.styleID })
+          });
+          const data = await response.json();
+          if (!response.ok) throw new Error(data.message);
+          alert('Sneaker removed from wishlist!');
+        } catch (error) {
+          console.error('Error removing from wishlist:', error);
+          alert(`An error occurred: ${error.message}`);
+        }
+      }
+    });
+  
     const image = document.createElement('img');
     image.src = sneaker.thumbnail;
     image.alt = sneaker.styleID;
     image.addEventListener('click', () => {
       showPopUp(sneaker);
     });
-
+  
     const link = document.createElement('a');
     link.href = sneaker.resellLinks.goat;
     link.target = '_blank';
@@ -366,12 +416,11 @@ document.addEventListener("DOMContentLoaded", () => {
       event.preventDefault();
       showPopUp(sneaker);
     });
-
-
+  
     frameImg.appendChild(circle);
     frameImg.appendChild(image);
     frameImg.appendChild(link);
-
+  
     return frameImg;
   }
 

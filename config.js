@@ -1,8 +1,7 @@
 const express = require('express');
 const path = require('path');
 const bcrypt = require('bcrypt');
-const collection = require('./db');
-const wishlist = require('./db');
+const { users, wishlist } = require('./db');
 const async = require('hbs/lib/async');
 const app = express();
 const port = 443;
@@ -38,10 +37,6 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
-app.get('/sneaker', (req, res) => {
-  res.render('sneaker');
-});
-
 app.get('/profile', (req, res) => {
   res.render('profile');
 });
@@ -49,6 +44,48 @@ app.get('/profile', (req, res) => {
 app.get('/login', (req, res) => {
   res.render('login');
 });
+
+app.get('/sneaker', (req, res) => {
+  res.render('sneaker');
+});
+
+app.get('/profile', (req, res) => {
+  if (req.session.user) {
+    res.render('profile', { user: req.session.user });
+  } else {
+    res.send('<script>alert("Please login first."); window.location.href = "/login";</script>');
+  }
+});
+
+app.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+    const user = await users.findOne({ email: email });
+
+    if (!user) {
+      return res.status(401).send('<script>alert("Email not found.");window.location.href="/login";</script>');
+    }
+
+    const passwordValid = await bcrypt.compare(password, user.password);
+    if (!passwordValid) {
+      return res.status(401).send('<script>alert("Incorrect password.");window.location.href="/login";</script>');
+    }
+
+    // Update session with more user data as needed
+    req.session.user = {
+      _id: user._id, // Consider adding user ID to the session
+      username: user.username,
+      name: user.name,
+      email: user.email
+    };
+
+    return res.redirect('/home');
+  } catch (error) {
+    console.error('Login error:', error);
+    return res.status(500).send('<script>alert("An error occurred during login.");window.location.href="/login";</script>');
+  }
+});
+
 
 app.get('/signup', (req, res) => {
   res.render('signup');
@@ -72,18 +109,21 @@ app.get('/sneaker-login', (req, res) => {
 //add wishlist
 app.post('/add-to-wishlist', async (req, res) => {
   if (!req.session.user) {
-    return res.status(401).json({ success: false, message: 'User not logged in.' });
+    
+    return res.status(401).json({ success: false, message: 'Please login first.' });
   }
 
   const { shoeName, brand, releaseDate, description, colorway, make, retailPrice, styleID, thumbnail } = req.body;
-  const userId = req.session.user._id;  // Ensure the user ID is correctly sourced from the session
+  // const username = req.session.user.username;  // Gunakan username dari sesi
 
   try {
+    const username = req.session.user.username;
+    console.log(username)
     const wishlistItem = new wishlist({
-      userId: userId,
+      username: username,  // Ensure this matches the schema requirement
       shoeName: shoeName,
       brand: brand,
-      releaseDate: new Date(releaseDate),  // Ensure date is correctly formatted
+      releaseDate: new Date(releaseDate),
       description: description,
       colorway: colorway,
       make: make,
@@ -91,9 +131,10 @@ app.post('/add-to-wishlist', async (req, res) => {
       styleID: styleID,
       thumbnail: thumbnail
     });
+    
 
-    // Save wishlist item to database
-    const insertwishlist = await wishlist.insertMany([wishlistItem])
+    // Simpan item ke dalam wishlist di database
+    const insertWishlist = await wishlist.insertMany([wishlistItem]);
 
     res.json({ success: true, message: 'Sneaker added to wishlist.' });
   } catch (error) {
@@ -102,6 +143,7 @@ app.post('/add-to-wishlist', async (req, res) => {
   }
 });
 
+
 //remove wishlist
 app.post('/remove-from-wishlist', async (req, res) => {
   if (!req.session.user) {
@@ -109,7 +151,7 @@ app.post('/remove-from-wishlist', async (req, res) => {
   }
   try {
     await wishlist.deleteOne({
-      userId: req.session.user._id,
+      username: req.session.user.username,
       styleID: req.body.styleID
     });
     res.json({ success: true, message: 'Sneaker removed from wishlist.' });
@@ -126,14 +168,38 @@ app.get('/wishlist', async (req, res) => {
   }
 
   try {
-    const userId = req.session.user._id; // Adjust this according to how user session is stored
-    const wishlistItems = await wishlist.find({ userId: userId }); // Assuming 'wishlist' is the model for wishlist items
+    const username = req.session.user.username; // Adjust this according to how user session is stored
+    const wishlistItems = await wishlist.find({ username: username }); // Assuming 'wishlist' is the model for wishlist items
     res.render('wishlist', { items: wishlistItems, user: req.session.user });
   } catch (error) {
     console.error('Error fetching wishlist:', error);
     res.status(500).send('Error fetching wishlist items');
   }
 });
+
+//checkwishlist
+app.get('/api/check-wishlist', async (req, res) => {
+  if (!req.session.user) {
+    return res.status(401).json({ success: false, message: 'User not logged in.' });
+  }
+  
+  try {
+    // Mengambil styleID dari query parameter
+    const styleID = req.query.styleID;
+    const username = req.session.user.username;  // Ambil username dari session
+
+    // Cek apakah item dengan styleID tersebut ada di wishlist
+    const item = await wishlist.findOne({ username: username, styleID: styleID });
+    const isInWishlist = item != null;
+
+    // Mengirim respons ke client
+    res.json({ isInWishlist: isInWishlist });
+  } catch (error) {
+    console.error('Error checking wishlist:', error);
+    res.status(500).json({ success: false, message: `An error occurred: ${error.message}` });
+  }
+});
+
 
 
 
@@ -190,14 +256,21 @@ app.get('/api/search', (req, res) => {
 
 // Register
 app.post('/signup', async (req, res) => {
-  const { name, email, password1, password2 } = req.body;
+  const { username, name, email, password1, password2 } = req.body;
 
   try {
-    // Check if email already exists
-    const checkEmail = await collection.findOne({ email: email });
+    // Check if email and username  already exists
+    const checkEmail = await users.findOne({ email: email });
+    const checkUsername = await users.findOne({ username: username });
+
     if (checkEmail) {
       console.log("Email already exists.");
       return res.status(400).send('<script>alert("Email already exists."); window.location.href = "/signup";</script>');
+    }
+
+    if (checkUsername) {
+      console.log("Username already exists.");
+      return res.status(400).send('<script>alert("Username already exists."); window.location.href = "/signup";</script>');
     }
 
     // Check if password1 and password2 match
@@ -211,14 +284,16 @@ app.post('/signup', async (req, res) => {
 
     // Create an object with user data
     const userDataToInsert = {
+      image: "public/img/home-login/logo/flight.png",
+      username: username.toLowerCase(),
       name: name,
       email: email,
       password: hashedPassword // Store the hashed password
     };
 
     // Save user data to the database
-    // const insertedUserData = await collection_register.insertMany([userDataToInsert]);
-    const insertedUserData = await collection.insertMany([userDataToInsert]);
+    // const insertedUserData = await users_register.insertMany([userDataToInsert]);
+    const insertedUserData = await users.insertMany([userDataToInsert]);
     console.log(insertedUserData)
 
     // Respond with a success message
@@ -234,25 +309,26 @@ app.post('/signup', async (req, res) => {
 // Login
 app.post("/login", async (req, res) => {
   try {
-    const checkEmail = await collection.findOne({ email: req.body.email });
-
-    if (!checkEmail) {
+    const user = await users.findOne({ email: req.body.email });
+    if (!user) {
       return res.send('<script>alert("Email not found");window.location.href="/login";</script>');
     }
 
-    const checkPassword = await bcrypt.compare(req.body.password, checkEmail.password);
-    if (checkPassword) {
+    const passwordValid = await bcrypt.compare(req.body.password, user.password);
+    if (passwordValid) {
+      // Simpan username di sesi
       req.session.user = {
-        name: checkEmail.name,
-        email: checkEmail.email
+        username: user.username,
+        name: user.name,
+        email: user.email
       };
-      return res.send('<script>alert("Login Successful");window.location.href="/home";</script>');
+      return res.status(200).send('<script>alert("Registration successful. Please log in."); window.location.href = "/login";</script>');
     } else {
       return res.send('<script>alert("Wrong Password!");window.location.href="/login";</script>');
     }
   } catch (error) {
     console.error('Error during login:', error);
-    return res.send('<script>alert("Wrong details!");window.location.href="/login";</script>');
+    return res.send('<script>alert("An error occurred during login.");window.location.href="/login";</script>');
   }
 });
 

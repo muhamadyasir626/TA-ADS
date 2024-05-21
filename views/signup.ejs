@@ -31,7 +31,16 @@
             <div class="frame-3">
                 <div class="container1">
                   <form action="/signup" method="post">
-      
+                    <style>
+                      input#username {
+                        text-transform: lowercase;
+                      }
+                    </style>
+                    
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" placeholder="Input your username" required>
+                    
+                          
                     <label for="name">Full Name</label>
                     <input type="text" name="name" placeholder="Input your name" require>
                   

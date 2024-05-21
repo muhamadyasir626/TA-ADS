@@ -1,0 +1,301 @@
+@font-face {
+  font-family: 'iran_sans_bold';
+  src: url('../Fonts/iran_sans_bold.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'iran_sans_light';
+  src: url('../Fonts/iran_sans_light.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'iran_sans_medi';
+  src: url('../Fonts/iran_sans_medi.woff') format('woff');
+}
+*{
+  font-family:  'Roboto Condensed';
+  margin: 0;
+  box-sizing: border-box;
+  outline: none;
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: all .2s linear;
+}
+
+html{
+  font-size: 60%;
+  scroll-padding-top: 6rem;
+  scroll-behavior: smooth;
+}
+
+th{
+  font-family: "roboto slab";
+  font-size: 1.5rem;
+}
+
+header{
+  position: inline;
+  top: 0;
+  left: 0;
+  gap: 20px;
+  width: 100%;
+  z-index: 1;
+  background: #ffffff;
+  padding: 2rem 6%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+}
+
+
+header .logo{
+  font-size: 30px;
+  color: #000;
+  font-weight: 500;
+  text-align: center; /* Center the logo text within its flex item */
+  font-family: "Most Wazted";
+  color: #EB4511;
+  max-width: 100px;
+}
+
+header .navbar {
+  display: flex;
+  justify-content: space-between; /* Menyebar item navbar secara lebih merata */
+  align-items: center;
+  gap:20px;
+}
+
+header .navbar a{
+  font-size: 1.5rem;
+  display: flex;
+  color: #000;
+  margin: 0 0.5rem;
+  padding: 4px 0px;
+  justify-content: space-between;
+  font-family: "roboto slab";
+  color: #afafaf;
+}
+
+header .navbar span{
+  font-family: "roboto slab";
+}
+
+.logo {
+
+  line-height: 1; /* Kurangi line-height untuk mendekatkan teks */
+}
+
+.logo span {
+  display: block;
+  margin-top: -15px; /* Jarak negatif untuk mendekatkan kedua baris */
+  font-size: 30px; /* Ukuran font untuk baris kedua */
+  color: #EB4511; /* Sesuaikan warna */
+  font-family: "most wazted";
+}
+
+
+
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 5px; /* Adjust spacing between icon and text */
+  color: #909090; /* Customize color */
+  text-decoration: none;
+}
+
+header .navbar a:hover{
+  color: orangered;
+}
+
+header .navbar .button:hover{
+  color: rgb(0, 0, 0);
+}
+
+
+#menu-bar{
+  font-size: 2rem;
+  padding: .5rem 1rem;
+  border: .1rem solid #000;
+  color: #000;
+  border-radius: .3rem;
+  cursor: pointer;
+  display: none;
+  margin-left: auto; 
+}
+
+.frame1{
+  position: absolute;
+  height: 100%;
+  width: 100%;
+}
+.frame1 .profile {
+  justify-content: center;
+  height: 15%;
+  display: flex;
+  align-items: center;
+  margin-top: 18px;
+}
+
+.frame1 .profile a{
+  font-size: 3rem;
+  font-family: "roboto slab";
+}
+
+.frame1 .profileuser{
+  outline: 1px solid rgb(219, 219, 219);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 500px;
+  min-width:550px;
+  width: 500px; /* Lebar kotak div */
+  height: 400px; /* Tinggi kotak div */
+  border-radius: 50px;
+  box-shadow: 0 .5rem 1rem rgba(0, 0, 0, .1);
+}
+
+.profileuser h2{
+  font-size: 2rem ;
+  text-align: center;
+  padding: 2.5rem;
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
+.profileuser h2 {
+  font-size: 2rem;
+  text-align: center;
+  padding: 2.5rem;
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
+.profileuser .profileuser2 {
+  height: 85%;
+  width: auto;
+  display: flex;
+  overflow: hidden; /* Prevents any child elements from overflowing */
+}
+
+.user {
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  padding: 1rem;
+  border-radius: 50px;
+  align-items: center;
+}
+
+.user span{
+  display: flex;
+  font-size: 2rem;
+  margin-top: 10px;
+}
+
+
+.user img {
+  border-radius: 50%;
+  object-fit: cover;
+  height: 15rem;
+  width: 15rem;
+  margin: 1rem 0;
+  border: 4px solid #ddd;
+}
+
+.user2 {
+  width: 50%;
+  padding: 2rem;
+  min-width: 200px
+}
+
+.button {
+  display: block;
+  background-color: #EB4511;
+  padding: 10px;
+  margin: 10px auto;
+  border-radius: 3px;
+}
+
+#file {
+  display: none;
+}
+
+#uploadbtn {
+  position: absolute;
+  height: 30px;
+  width: 30px;
+  padding: 6px;
+  border-radius: 50%;
+  background-color: #c2c2c2;
+  box-shadow: 2px 4px 4px #000;
+  transform: translateX(200%);
+  margin-top: 100px;
+  justify-content: center;
+  align-items: center;
+}
+
+.user .fa-camera {
+  font-size: 1.9rem;
+  align-items: center;
+}
+
+hr {
+  height: 90%;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th, td {
+  padding: 5px;
+  font-size: 1.5rem;
+}
+
+th {
+  text-align: left;
+  font-family: "Roboto Slab";
+}
+
+.button1 {
+  position: relative;
+  font-size: 1.5rem;
+  padding: 0.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border-radius: 0.5rem;
+  margin-top: 70px;
+  display: block; /* Membuat button menjadi block level element */
+  margin-left: auto; /* Margin kiri otomatis */
+  margin-right: auto; /* Margin kanan otomatis */
+  width: fit-content; /* Opsional: Mengatur lebar tombol berdasarkan kontennya */
+  cursor: pointer;
+}
+
+.button1:hover {
+  background-color: #EB4511;
+  color: #ffffff;
+}
+
+/* Media Queries */
+@media (max-width: 73px) {
+  .profileuser, .profileuser2 {
+    flex-direction: column; /* Stacks the flex children vertically */
+  }
+
+  .user, .user2 {
+    width: 100%; /* Each takes full width on smaller screens */
+  }
+
+  .user img {
+    height: 10rem; /* Smaller image on smaller screens */
+    width: 10rem;
+  }
+
+  #uploadbtn {
+    transform: translateX(300%); /* Adjust button position on smaller screens */
+  }
+}

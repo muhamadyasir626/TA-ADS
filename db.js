@@ -10,7 +10,9 @@ connect.then(() => {
   });
 
 const user = new mongoose.Schema({
-  name: String,
+  image: String,
+  username: {type:String, required :true}, 
+  name:String,
   email: String,
   password: String,
  
@@ -18,7 +20,7 @@ const user = new mongoose.Schema({
 });
 
 const wishlist_schema = new mongoose.Schema({
-  userId: mongoose.Types.ObjectId,
+  username: {type:String, required :true}, 
   shoeName: String,
   brand: String,
   releaseDate: Date,
@@ -40,10 +42,8 @@ const wishlist_schema = new mongoose.Schema({
   }
 });
 
-const collection = new mongoose.model("users", user);
+const users = new mongoose.model("users", user);
 const wishlist = new mongoose.model("wishlist", wishlist_schema);
 
-module.exports = collection;
-module.exports = wishlist;
-
+module.exports = { users, wishlist };
 
