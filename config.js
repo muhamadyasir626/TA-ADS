@@ -2,7 +2,7 @@ const express = require('express');
 const path = require('path');
 const bcrypt = require('bcrypt');
 const collection = require('./db');
-// const wishlist = require('./db');
+const wishlist = require('./db');
 const async = require('hbs/lib/async');
 const app = express();
 const port = 443;
@@ -69,7 +69,74 @@ app.get('/sneaker-login', (req, res) => {
   }
 });
 
-//pop up 
+//add wishlist
+app.post('/add-to-wishlist', async (req, res) => {
+  if (!req.session.user) {
+    return res.status(401).json({ success: false, message: 'User not logged in.' });
+  }
+
+  const { shoeName, brand, releaseDate, description, colorway, make, retailPrice, styleID, thumbnail } = req.body;
+  const userId = req.session.user._id;  // Ensure the user ID is correctly sourced from the session
+
+  try {
+    const wishlistItem = new wishlist({
+      userId: userId,
+      shoeName: shoeName,
+      brand: brand,
+      releaseDate: new Date(releaseDate),  // Ensure date is correctly formatted
+      description: description,
+      colorway: colorway,
+      make: make,
+      retailPrice: retailPrice,
+      styleID: styleID,
+      thumbnail: thumbnail
+    });
+
+    // Save wishlist item to database
+    const insertwishlist = await wishlist.insertMany([wishlistItem])
+
+    res.json({ success: true, message: 'Sneaker added to wishlist.' });
+  } catch (error) {
+    console.error('Error adding sneaker to wishlist:', error);
+    res.status(500).json({ success: false, message: `An error occurred: ${error.message}` });
+  }
+});
+
+//remove wishlist
+app.post('/remove-from-wishlist', async (req, res) => {
+  if (!req.session.user) {
+    return res.status(401).json({ success: false, message: 'User not logged in.' });
+  }
+  try {
+    await wishlist.deleteOne({
+      userId: req.session.user._id,
+      styleID: req.body.styleID
+    });
+    res.json({ success: true, message: 'Sneaker removed from wishlist.' });
+  } catch (error) {
+    console.error('Error removing sneaker from wishlist:', error);
+    res.status(500).json({ success: false, message: `An error occurred: ${error.message}` });
+  }
+});
+
+//page wishlist
+app.get('/wishlist', async (req, res) => {
+  if (!req.session.user) {
+    return res.redirect('/login');
+  }
+
+  try {
+    const userId = req.session.user._id; // Adjust this according to how user session is stored
+    const wishlistItems = await wishlist.find({ userId: userId }); // Assuming 'wishlist' is the model for wishlist items
+    res.render('wishlist', { items: wishlistItems, user: req.session.user });
+  } catch (error) {
+    console.error('Error fetching wishlist:', error);
+    res.status(500).send('Error fetching wishlist items');
+  }
+});
+
+
+
 
 // New route to handle sneaker search via Sneaks API
 app.get('/api/search', (req, res) => {

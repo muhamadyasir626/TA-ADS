@@ -43,6 +43,7 @@ const wishlist_schema = new mongoose.Schema({
 const collection = new mongoose.model("users", user);
 const wishlist = new mongoose.model("wishlist", wishlist_schema);
 
-module.exports = collection, wishlist;
+module.exports = collection;
+module.exports = wishlist;
 
 
