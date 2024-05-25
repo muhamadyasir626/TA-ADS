@@ -152,7 +152,9 @@ header .navbar .button:hover{
 }
 
 section{
-    padding: 2rem 9%;
+    padding: 2rem 5%;
+    position: relative;
+    margin-top:80px;
 }
 
 .frame1{
@@ -168,13 +170,12 @@ section{
     height: 15%;
     display: flex;
     align-items: center;
-    margin-top: 18px;
-  }
-
+    margin-top: 40px;
+}
   .frame1 .wishlist a{
     font-size: 3rem;
     font-family: "roboto slab";
-    margin-top: 50px;
+    margin-top: 70px;
   }
 
   .heading{
@@ -191,32 +192,30 @@ section{
     display: flex;
     flex-wrap: wrap; /* Bungkus ke baris berikutnya */
     gap: 0px; /* Sesuaikan jarak antar kotak */
-    justify-content: space-between; /* Atur penyebaran kotak produk */
-    margin: 0 auto;
+    margin: 3%;
     width: 100%;
     background-color: #ffffff;
     gap: 15px; /* Menambahkan gap antar box */
-    margin-top: 80px;
+    justify-content: flex-start; /* Item mulai dari kiri dan tetap di kiri */
 }
 
-.product .box-container .frameimg{
-    flex: 1 1 calc(30% - 20px);
-    margin-bottom: 20px;
-    min-width: 200px; /* Ukuran minimum */
-    width: 30%;
-    height: 20%;
+.product .box-container .frameimg {
+    width: 400px !important;; /* Lebar tetap */
+    height: 320px; /* Tinggi tetap */
     border-radius: 10px;
     box-sizing: border-box;
     background-color: #ffffff;
-    overflow:hidden;
+    overflow: hidden;
     text-align: center;
     box-shadow: 0 .5rem 3rem rgba(0, 0, 0, 0.1);
     cursor: pointer;
- }
+    margin: 10px;
+    position: relative; /* untuk positioning absolut dari elemen di dalam seperti .circle */
+}
+
 
  .product .box-container .frameimg img{
     width: 60%;
-    height: 30%;
     object-fit: cover;
     z-index: 1;
  }
@@ -226,11 +225,10 @@ section{
     color: #333;
     font-weight: bold;
     text-decoration: none;
-    margin-top: 15px; /* Adjust the margin-top value */
-    margin-bottom: 15px; /* Adjust the margin-bottom value */
     font-size: 16px; /* Adjust the font size as needed */
     text-align: center;
     font-family: "Roboto Slab";
+    padding:20px;
 }
 
 .product .box-container .frameimg .circle{ 

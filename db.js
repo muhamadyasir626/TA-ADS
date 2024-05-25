@@ -23,7 +23,7 @@ const wishlist_schema = new mongoose.Schema({
   username: {type:String, required :true}, 
   shoeName: String,
   brand: String,
-  releaseDate: Date,
+  releaseDate: String,
   description: String,
   colorway: String,
   make: String,

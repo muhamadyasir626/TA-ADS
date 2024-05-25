@@ -20,6 +20,10 @@ app.use(session({
   cookie: { maxAge: 1000 * 60 * 60 * 24 } // Session valid for 1 day
 }));
 
+app.listen(3000, () => {
+  console.log('Server started on port 3000');
+});
+
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
 
@@ -37,10 +41,6 @@ app.get('/', (req, res) => {
   res.render('index');
 });
 
-app.get('/profile', (req, res) => {
-  res.render('profile');
-});
-
 app.get('/login', (req, res) => {
   res.render('login');
 });
@@ -49,11 +49,62 @@ app.get('/sneaker', (req, res) => {
   res.render('sneaker');
 });
 
-app.get('/profile', (req, res) => {
-  if (req.session.user) {
-    res.render('profile', { user: req.session.user });
+app.get('/profile', async (req, res) => {
+  if (!req.session.user) {
+      res.redirect('/login');
   } else {
-    res.send('<script>alert("Please login first."); window.location.href = "/login";</script>');
+      try {
+          const userData = await users.findOne({ email: req.session.user.email });
+          if (!userData) {
+              res.send("User not found");
+          } else {
+              const wishlistCount = await wishlist.countDocuments({ username: userData.username });
+              res.render('profile', { user: userData, wishlistCount: wishlistCount });
+          }
+      } catch (error) {
+          console.error('Error fetching user data:', error);
+          res.status(500).send("Error fetching user data");
+      }
+  }
+});
+
+//update profile
+app.post('/update-profile', async (req, res) => {
+  try {
+    const oldUsername = req.session.user.username; // Correctly access username from session
+    console.log('Old Username:', oldUsername);
+    const { username, name, email } = req.body;
+    
+    // Use the session ID to ensure you're updating the correct user profile
+    const updatedUser = await users.findByIdAndUpdate(req.session.user._id, {
+      $set: {
+        username: username,
+        name: name,
+        email: email,
+      }
+    }, { new: true });
+
+    if (updatedUser) {
+      // Update wishlist items only if the username was indeed changed to avoid unnecessary operations
+      if (oldUsername !== username) {
+        await wishlist.updateMany({ username: oldUsername }, {
+          $set: { username: username }
+        });
+      }
+
+      // Update session details to reflect changes
+      req.session.user = { ...req.session.user, username, name, email };
+
+      // Redirect with success message
+      res.redirect(`/profile?message=Profile updated successfully!`);
+    } else {
+      // If no user is found or updated, redirect with an error
+      res.redirect('/profile?error=User not found');
+    }
+  } catch (err) {
+    console.error('Error updating profile:', err);
+    // Handle error and redirect with error message
+    res.status(500).redirect('/profile?error=An error occurred');
   }
 });
 
@@ -86,7 +137,6 @@ app.post("/login", async (req, res) => {
   }
 });
 
-
 app.get('/signup', (req, res) => {
   res.render('signup');
 });
@@ -109,18 +159,18 @@ app.get('/sneaker-login', (req, res) => {
 //add wishlist
 app.post('/add-to-wishlist', async (req, res) => {
   if (!req.session.user) {
-    
     return res.status(401).json({ success: false, message: 'Please login first.' });
   }
 
-  const { shoeName, brand, releaseDate, description, colorway, make, retailPrice, styleID, thumbnail } = req.body;
-  // const username = req.session.user.username;  // Gunakan username dari sesi
+  // Menerima atribut sneaker dari body request
+  const { shoeName, brand, releaseDate, description, colorway, make, retailPrice, styleID, thumbnail, resellLinks, lowestResellPrice } = req.body;
 
   try {
-    const username = req.session.user.username;
-    console.log(username)
+    const username = req.session.user.username;  // Menggunakan username dari sesi
+
+    // Membuat objek wishlistItem baru
     const wishlistItem = new wishlist({
-      username: username,  // Ensure this matches the schema requirement
+      username: username,  // Pastikan ini sesuai dengan kebutuhan skema
       shoeName: shoeName,
       brand: brand,
       releaseDate: new Date(releaseDate),
@@ -129,11 +179,20 @@ app.post('/add-to-wishlist', async (req, res) => {
       make: make,
       retailPrice: retailPrice,
       styleID: styleID,
-      thumbnail: thumbnail
+      thumbnail: thumbnail,
+      resellLinks: { // Memperbaiki struktur objek ini
+        goat: resellLinks.goat,
+        flightClub: resellLinks.flightClub,
+        stockX: resellLinks.stockX,
+      },
+      lowestResellPrice: { // Memperbaiki struktur objek ini
+        stockX: lowestResellPrice.stockX,
+        flightClub: lowestResellPrice.flightClub,
+        goat: lowestResellPrice.goat,
+      }
     });
-    
 
-    // Simpan item ke dalam wishlist di database
+    // Menyimpan item ke dalam database wishlist
     const insertWishlist = await wishlist.insertMany([wishlistItem]);
 
     res.json({ success: true, message: 'Sneaker added to wishlist.' });
@@ -142,7 +201,6 @@ app.post('/add-to-wishlist', async (req, res) => {
     res.status(500).json({ success: false, message: `An error occurred: ${error.message}` });
   }
 });
-
 
 //remove wishlist
 app.post('/remove-from-wishlist', async (req, res) => {
@@ -177,6 +235,24 @@ app.get('/wishlist', async (req, res) => {
   }
 });
 
+app.get('/api/sneakers/detail/:id', async (req, res) => {
+  try {
+    const sneakerId = req.params.id;
+    const sneaker = await wishlist.findOne({ _id: sneakerId }); // Asumsi bahwa 'wishlist' adalah model yang benar
+    console.log(sneaker)
+    if (!sneaker) {
+      return res.status(404).json({ message: 'Sneaker not found' });
+    }
+
+    res.json(sneaker);
+  } catch (error) {
+    console.error('Error fetching sneaker details:', error);
+    res.status(500).json({ message: 'Error fetching sneaker details' });
+  }
+});
+
+
+
 //checkwishlist
 app.get('/api/check-wishlist', async (req, res) => {
   if (!req.session.user) {
@@ -200,11 +276,14 @@ app.get('/api/check-wishlist', async (req, res) => {
   }
 });
 
+// //display wishlist
 
 
 
 
-// New route to handle sneaker search via Sneaks API
+
+
+// feature search
 app.get('/api/search', (req, res) => {
   const query = req.query.q || 'Nike';  // Default search query
   const limit = parseInt(req.query.limit, 10) || 9;  // Default limit
@@ -310,6 +389,7 @@ app.post('/signup', async (req, res) => {
 app.post("/login", async (req, res) => {
   try {
     const user = await users.findOne({ email: req.body.email });
+
     if (!user) {
       return res.send('<script>alert("Email not found");window.location.href="/login";</script>');
     }
@@ -322,6 +402,8 @@ app.post("/login", async (req, res) => {
         name: user.name,
         email: user.email
       };
+     
+
       return res.status(200).send('<script>alert("Registration successful. Please log in."); window.location.href = "/login";</script>');
     } else {
       return res.send('<script>alert("Wrong Password!");window.location.href="/login";</script>');
@@ -382,6 +464,39 @@ app.get('/api/most-popular', (req, res) => {
         }
       };
     });
+
+    res.json(formattedProducts);
+  });
+});
+
+//display only jordan
+app.get('/api/onlyjordan', (req, res) => {
+  console.log(`Fetching Jordan sneakers`);
+  
+  // Extract query parameters for pagination
+  const limit = parseInt(req.query.limit) || 9; // Default to 10 items per page
+  const offset = parseInt(req.query.offset) || 0; // Default to start at 0
+
+  sneaks.getProducts('Jordan', 100, (err, products) => {
+    if (err) {
+      console.error('Error fetching Jordan products:', err);
+      return res.status(500).json({ error: 'Error occurred while fetching Jordan products.' });
+    }
+
+    const slicedProducts = products.slice(offset, offset + limit);
+    const formattedProducts = slicedProducts.map(product => ({
+      shoeName: product.shoeName,
+      brand: product.brand,
+      releaseDate: product.releaseDate,
+      description: product.description,
+      colorway: product.colorway,
+      make: product.make,
+      retailPrice: product.retailPrice,
+      styleID: product.styleID,
+      thumbnail: product.thumbnail,
+      resellLinks: product.resellLinks,
+      lowestResellPrice: product.lowestResellPrice,
+    }));
 
     res.json(formattedProducts);
   });

@@ -27,7 +27,7 @@ html{
     scroll-behavior: smooth;
 }
 header{
-    position: fixed;
+    position: relative;
     top: 0;
     left: 0;
     gap: 20px;
@@ -319,10 +319,8 @@ section{
 
 .product .box-container .frameimg{
     flex: 1 1 calc(30% - 20px);
-    margin-bottom: 20px;
     min-width: 200px; /* Ukuran minimum */
     width: 30%;
-    height: 20%;
     border-radius: 10px;
     box-sizing: border-box;
     background-color: #ffffff;
@@ -334,7 +332,6 @@ section{
 
  .product .box-container .frameimg img{
     width: 60%;
-    height: 30%;
     object-fit: cover;
     z-index: 1;
  }
@@ -347,7 +344,7 @@ section{
     font-size: 16px; /* Adjust the font size as needed */
     text-align: center;
     font-family: "Roboto Slab";
-    padding:20px
+    padding:20px;
 }
 
 .product .box-container .frameimg .circle{ 
@@ -367,9 +364,9 @@ section{
     color: #ffffff;
 }
 
-.circle .heart-active {
-    color:#ff0000; /* Warna ketika aktif */
-}
+.circle .fa-heart.active {
+    color: red; /* Warna saat aktif */
+  }
 
 
  .product .box-container .frameimg  hr {
@@ -732,11 +729,8 @@ ul{
 }
 }
 
-<<<<<<< Updated upstream
-=======
 /* toggle ikon heart */
 .liked {
     color: red; /* or any color you prefer */
   } 
 
->>>>>>> Stashed changes

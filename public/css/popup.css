@@ -60,6 +60,15 @@
   z-index: 1;
 }
 
+.description1{
+  position: relative;
+  background-color: #ffffff;
+  padding: 20px;
+  display: flex; /* Menggunakan flexbox */
+  align-items: center; /* Menengahkan konten secara vertikal */
+  z-index: 1;
+}
+
 .description hr{
   margin-bottom: 0.5rem;
 }
@@ -138,6 +147,7 @@
   overflow: hidden;
   width: 100px; /* Tetapkan lebar tetap */
   height: 30px; /* Tetapkan tinggi tetap */
+  background-color: #ffffff;
 }
 
 /* Style for the images inside pop-up */
@@ -152,7 +162,7 @@
   display: block; /* Ganti inline-block jika perlu */
   height: 100%;
   width: 100%;
-  color: #fff;
+  color: #ffffff;
   transition: all 0.2s;
 }
 
@@ -169,6 +179,15 @@
   left: 50%;
   transform: translate(-50%, -50%) scale(2.5); /* Meningkatkan faktor skala menjadi 2 */
   }
+
+.lo{
+  height: auto;  /* Menggunakan 'auto' agar tinggi menyesuaikan dengan lebar */
+  width: 150%;   /* Meningkatkan lebar menjadi 150% dari lebar aslinya */
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(1); /* Meningkatkan faktor skala menjadi 2 */
+}
 
 .btn__invisible {
   position: absolute;
@@ -217,6 +236,20 @@
   margin-top: 9.7px;
   
 }
+
+.hearts1 {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #000000;
+  padding: 5px 20px; /* Coba kurangi lebih lanjut jika perlu */
+  cursor: pointer;
+  background-color: #fff;
+  border-radius: 5px;
+  height: 30px !important; /* Menggunakan !important */
+  
+}
+
 
 .btn__visible {
   text-decoration: none; /* Menghilangkan garis bawah dari link */

@@ -4,27 +4,59 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>User Wishlist</title>
-  <link rel="stylesheet" href="/stylesheets/style.css">
+  <link rel="stylesheet" href="/css/wishlist.css">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="/css/popup.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="font-awesome/css/font-awesome.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@400&display=swap" rel="stylesheet">
 </head>
 <body>
-  <h1><%= user.name %>'s Wishlist</h1>
-  <% if (items.length) { %>
-    <ul>
-      <% items.forEach(function(item) { %>
-        <li>
-          <img src="<%= item.thumbnail %>" alt="<%= item.shoeName %>" style="width: 100px; height: auto;">
-          <h2><%= item.shoeName %></h2>
-          <p><%= item.description %></p>
-          <p>Colorway: <%= item.colorway%></p>
-          <p>Reatil Price: $<%= item.retailPrice %></p>
-          <!-- Optionally include a remove button -->
-          <button onclick="removeFromWishlist('<%= item._id %>')">Remove</button>
-        </li>
-      <% }) %>
-    </ul>
-  <% } else { %>
-    <p>Your wishlist is empty.</p>
-  <% } %>
-  <script src="/javascripts/wishlist.js"></script>
+  <header>
+    <div id="menu-bar" class="fa fa-bars"></div>
+    <a href="/home" class="logo">Sneaker<span>Scout</span></a>
+    <nav class="navbar">
+        <a href="/home" class="nav-item">
+            <i class="fas fa-home"></i>
+            <span>Home</span>
+        </a>
+        <a href="/sneaker" class="nav-item">
+            <i class="fas fa-shoe-prints"></i>
+            <span>Catalog</span>
+        </a>
+        <a href="/profile" class="nav-item">
+            <i class="fa fa-user"></i>
+            <span>Account</span>
+        </a>
+    </nav>
+  </header>
+  <div class="frame1">
+    <div class="wishlist">
+      <a>Your Wishlist</a>
+    </div>
+    <section class="product" id="product">
+        <div class="box-container" id="sneaker-mostpopular1">
+
+          <% if (items.length) { %>
+            <% items.forEach(function(item) { %>
+              <div class="frameimg" data-sneaker-id="<%= item._id %>">
+                <div class="circle">
+                  <i class="fa fa-heart"></i>
+                </div>
+                <img src="<%= item.thumbnail %>" alt="<%= item.shoeName %>"> 
+                <a href="" class="sneaker-details-link" target="_blank"><%= item.shoeName %></a>
+              </div>
+            <% }) %>
+          <% } else { %>
+            <p>Your wishlist is empty.</p>
+          <% } %>
+        </div>  
+</section>
+</div>
+<script src="/wishlistpopup.js"></script>
 </body>
 </html>

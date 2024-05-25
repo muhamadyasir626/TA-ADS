@@ -5,16 +5,17 @@ const uploadebtn = document.querySelector('#uploadbtn');
 
 
 
-file.addEventListener('change', function(){
-const chosedfile = this.Files[0];
-if(chosedfile){
-    const reader = new FileReader();
+// // file.addEventListener('change', function(){
+// // const chosedfile = this.Files[0];
+// // if(chosedfile){
+// //     const reader = new FileReader();
 
-    reader.addEventListener( 'load' , function(){
-        img.setAttribute('src', reader.result);
-    })
- reader.readAsDataURL (chosedfile);
+// //     reader.addEventListener( 'load' , function(){
+// //         img.setAttribute('src', reader.result);
+// //     })
+// //  reader.readAsDataURL (chosedfile);
 
-}
+// // }
 
-})
+// })
+
