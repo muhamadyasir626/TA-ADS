@@ -10,6 +10,35 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log("Sneaker ID: ", sneakerId); // Menampilkan ID sneaker ke konsol
       showPopUp(sneakerId);
     }
+    if (target.classList.contains('fa-heart')) {
+      const sneakerId = target.closest('.frameimg').getAttribute('data-sneaker-id');
+      const confirmDelete = confirm("Are you sure you want to remove this item from your wishlist?");
+
+      if (confirmDelete) {
+        // Mengirim permintaan untuk menghapus sneaker dari wishlist
+        fetch(`/remove-from-wishlist`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ styleID: sneakerId })
+        })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              alert('Sneaker removed from wishlist.');
+              // Menghapus sneaker dari tampilan
+              target.closest('.frameimg').remove();
+            } else {
+              alert('Failed to remove sneaker from wishlist.');
+            }
+          })
+          .catch(error => {
+            console.error('Error removing sneaker:', error);
+            alert('An error occurred.');
+          });
+      }
+    }
   });
 
   async function showPopUp(sneakerId) {
@@ -76,7 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
     document.body.appendChild(popUp);
   }
 
-  
+
   function findSneakerById(id) {
     if (!id) {
       console.error('Invalid sneaker ID:', id);
@@ -97,8 +126,9 @@ document.addEventListener("DOMContentLoaded", () => {
         return null;
       });
   }
-  
-  
+
+
+
 });
 
 

@@ -235,11 +235,13 @@ app.get('/wishlist', async (req, res) => {
   }
 });
 
+
+//pop up wishlist
 app.get('/api/sneakers/detail/:id', async (req, res) => {
   try {
     const sneakerId = req.params.id;
     const sneaker = await wishlist.findOne({ _id: sneakerId }); // Asumsi bahwa 'wishlist' adalah model yang benar
-    console.log(sneaker)
+    console.log
     if (!sneaker) {
       return res.status(404).json({ message: 'Sneaker not found' });
     }
@@ -276,7 +278,32 @@ app.get('/api/check-wishlist', async (req, res) => {
   }
 });
 
-// //display wishlist
+//remove item page wishlist
+// Endpoint untuk menghapus item dari wishlist
+app.post('/remove-from-wishlist', async (req, res) => {
+  if (!req.session.user) {
+    return res.status(401).json({ success: false, message: 'User not logged in.' });
+  }
+
+  const { styleID } = req.body;
+
+  try {
+    const result = await wishlist.deleteOne({
+      username: req.session.user.username,
+      styleID: styleID
+    });
+
+    if (result.deletedCount === 0) {
+      res.status(404).json({ success: false, message: 'Item not found or already removed.' });
+    } else {
+      res.json({ success: true, message: 'Sneaker removed from wishlist.' });
+    }
+  } catch (error) {
+    console.error('Error removing sneaker from wishlist:', error);
+    res.status(500).json({ success: false, message: `An error occurred: ${error.message}` });
+  }
+});
+
 
 
 
