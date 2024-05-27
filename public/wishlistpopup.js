@@ -1,7 +1,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   const boxContainer = document.getElementById('sneaker-mostpopular1');
 
-  boxContainer.addEventListener('click', function (event) {
+  boxContainer.addEventListener('click',  async function (event) {
     const target = event.target;
 
     // Memastikan kita menangani klik pada gambar di dalam frameimg
@@ -13,31 +13,46 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target.classList.contains('fa-heart')) {
       const sneakerId = target.closest('.frameimg').getAttribute('data-sneaker-id');
       const confirmDelete = confirm("Are you sure you want to remove this item from your wishlist?");
+      console.log("style ID: ", sneakerId); // Menampilkan ID sneaker ke konsol
 
       if (confirmDelete) {
-        // Mengirim permintaan untuk menghapus sneaker dari wishlist
-        fetch(`/remove-from-wishlist`, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ styleID: sneakerId })
-        })
-          .then(response => response.json())
-          .then(data => {
-            if (data.success) {
-              alert('Sneaker removed from wishlist.');
-              // Menghapus sneaker dari tampilan
-              target.closest('.frameimg').remove();
-            } else {
-              alert('Failed to remove sneaker from wishlist.');
-            }
-          })
-          .catch(error => {
-            console.error('Error removing sneaker:', error);
-            alert('An error occurred.');
-          });
-      }
+  try {
+    const response = await fetch(`/remove-from-page-wishlist`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ styleID: sneakerId })
+    });
+
+    // First, check if the response is ok.
+    if (!response.ok) {
+      // If the response is not ok, log the response to understand the issue
+      console.error('Failed to remove sneaker, server responded with:', response.status);
+      alert('Failed to remove sneaker from wishlist. Please try again.');
+      return;
+    }
+
+    // Then, safely attempt to parse the JSON.
+    let data;
+    try {
+      data = await response.json();
+    } catch (jsonError) {
+      console.error('Error parsing JSON from response:', jsonError);
+      alert('Received malformed data. Please contact support.');
+      return;
+    }
+
+    // Handle the data as necessary
+    alert('Sneaker removed from wishlist.');
+    target.closest('.frameimg').remove();
+
+  } catch (error) {
+    console.error('Error removing sneaker:', error);
+    alert('An error occurred while removing the sneaker. Please check your network connection and try again.');
+  }
+}
+
     }
   });
 

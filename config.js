@@ -202,7 +202,7 @@ app.post('/add-to-wishlist', async (req, res) => {
   }
 });
 
-//remove wishlist
+//remove wishlist old
 app.post('/remove-from-wishlist', async (req, res) => {
   if (!req.session.user) {
     return res.status(401).json({ success: false, message: 'User not logged in.' });
@@ -240,7 +240,7 @@ app.get('/wishlist', async (req, res) => {
 app.get('/api/sneakers/detail/:id', async (req, res) => {
   try {
     const sneakerId = req.params.id;
-    const sneaker = await wishlist.findOne({ _id: sneakerId }); // Asumsi bahwa 'wishlist' adalah model yang benar
+    const sneaker = await wishlist.findOne({ styleID: sneakerId }); // Asumsi bahwa 'wishlist' adalah model yang benar
     console.log
     if (!sneaker) {
       return res.status(404).json({ message: 'Sneaker not found' });
@@ -279,18 +279,18 @@ app.get('/api/check-wishlist', async (req, res) => {
 });
 
 //remove item page wishlist
-// Endpoint untuk menghapus item dari wishlist
-app.post('/remove-from-wishlist', async (req, res) => {
+app.post('/remove-from-page-wishlist', async (req, res) => {
   if (!req.session.user) {
     return res.status(401).json({ success: false, message: 'User not logged in.' });
   }
 
   const { styleID } = req.body;
+  console.log('Received styleID:', req.body.styleID);
 
   try {
     const result = await wishlist.deleteOne({
-      username: req.session.user.username,
-      styleID: styleID
+      username: req.session.user.username,  // Ensure username is correctly pulled from session
+      styleID: req.body.styleID             // Ensure styleID is correctly pulled from the request body
     });
 
     if (result.deletedCount === 0) {
@@ -303,6 +303,10 @@ app.post('/remove-from-wishlist', async (req, res) => {
     res.status(500).json({ success: false, message: `An error occurred: ${error.message}` });
   }
 });
+
+
+
+
 
 
 
