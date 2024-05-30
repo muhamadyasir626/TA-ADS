@@ -61,14 +61,16 @@
                     <hr>
                     <a>PRICE</a>
                     <div class="filter-harga">
-                        <label for="hargaMin">Minimum Price</label>
-                        <input type="number" id="hargaMin" placeholder="Rp" min="0">
-                    
-                        <label for="hargaMax">Maximum Price</label>
-                        <input type="number" id="hargaMax" placeholder="Rp" min="0">
-                    
-                        <button onclick="filterPrice()">Wholesale Price</button>
-                    </div>
+                        <form action="" id="sneaker-filter-price-form">
+                          <label for="hargaMin">Minimum Price</label>
+                          <input type="number" id="hargaMin" placeholder="$" min="0">
+                      
+                          <label for="hargaMax">Maximum Price</label>
+                          <input type="number" id="hargaMax" placeholder="$" min="0">
+                      
+                          <button type="submit">Wholesale Price</button>
+                        </form>
+                      </div>
                 </div>
             </div>
         </div>
