@@ -119,6 +119,9 @@ document.body.appendChild(popUp); // Append pop-up to the body
 const closeBtn = popUp.querySelector(".close-button");
 closeBtn.addEventListener("click", () => {
   document.body.removeChild(popUp);
+  checkWishlist(); 
+  location.reload()
+
 });
 
 const heartIcon = popUp.querySelector(".fa-heart");
@@ -153,6 +156,8 @@ heartIcon.addEventListener("click", async (event) => {
     const data = await response.json();
     if (!response.ok) throw new Error(data.message);
     alert(`Sneaker ${isActive ? 'added to' : 'removed from'} wishlist!`);
+    checkWishlist(); 
+
   } catch (error) {
     console.error(`Error ${isActive ? 'adding to' : 'removing from'} wishlist:`, error);
     alert(`An error occurred: ${error.message}`);
