@@ -761,6 +761,7 @@ document.addEventListener("DOMContentLoaded", () => {
             const sneakerCard = createSneakerCard(sneaker);
             container.appendChild(sneakerCard);
           }
+          
         });
       })
       .catch((error) =>
@@ -770,7 +771,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   function isNewRelease(releaseDate) {
     const release = new Date(releaseDate);
-    const startDate = new Date("2020-01-01");
+    const startDate = new Date("2024-01-01");
     const endDate = new Date("2024-12-31");
     return release >= startDate && release <= endDate;
   }

@@ -507,13 +507,13 @@ app.get('/logout', (req, res) => {
 
 //display most popular
 app.get('/api/most-popular', (req, res) => {
-  const limit = parseInt(req.query.limit) || 9;
+  const limit = parseInt(req.query.limit) || 12;
   const offset = parseInt(req.query.offset) || 0;
 
   console.log(`Fetching most popular sneakers with limit: ${limit}, offset: ${offset}`);
 
   // Fetch a large enough number to handle pagination properly
-  sneaks.getMostPopular(200, (err, products) => {
+  sneaks.getMostPopular(100, (err, products) => {
     if (err) {
       console.error('Error fetching most popular products:', err);
       return res.status(500).json({ error: 'Error occurred while fetching most popular products.' });
@@ -560,7 +560,7 @@ app.get('/api/onlyjordan', (req, res) => {
   console.log(`Fetching Jordan sneakers`);
   
   // Extract query parameters for pagination
-  const limit = parseInt(req.query.limit) || 9; // Default to 10 items per page
+  const limit = parseInt(req.query.limit) || 12; // Default to 10 items per page
   const offset = parseInt(req.query.offset) || 0; // Default to start at 0
 
   sneaks.getProducts('Jordan', 100, (err, products) => {
@@ -606,8 +606,8 @@ app.listen(port, () => {
 // Endpoint to get filtered sneaker data by brand
 app.get('/api/search', (req, res) => {
     const query = req.query.q || 'Nike'; // Default search query if none provided
-    const limit = parseInt(req.query.limit, 10) || 9; // Default items per page
-    const offset = parseInt(req.query.offset, 10) || 0; // Pagination offset
+    const limit = parseInt(req.query.limit) || 12; // Default items per page
+    const offset = parseInt(req.query.offset) || 0; // Pagination offset
 
     console.log(`Searching for sneakers with query: ${query}, limit: ${limit}, and offset: ${offset}`);
 

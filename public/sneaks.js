@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let checkboxes = [];
   let inputData = "";
-  let limit = 9;
+  const limit = 12;
   let offset = 0;
   let isSearchActive = false;
   let isPopularActive = false;
@@ -663,48 +663,55 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   //API most popular
-  fetchMostPopularSneakers();
+  fetchMostPopularSneakers(true);
 
-  function fetchMostPopularSneakers() {
+  function fetchMostPopularSneakers(clear = true) {
+    if (clear) {
+      sneakerContainer.innerHTML = ""; // Clear existing content
+    }
     if (isFilterPriceActive) {
-      fetch("/api/most-popular")
+      fetch(`/api/most-popular?limit=${limit}&offset=${offset}`)
         .then((response) => response.json())
         .then((sneakers) => {
           const container = document.getElementById("sneaker-mostpopular1");
           console.log("ini mostpopular if");
           isPopularActive = true;
-          container.innerHTML = ""; // Clear existing content
           console.log("max =", priceMax);
           console.log("min =", priceMin);
           sneakers.forEach((sneaker) => {
-            if (priceFilter(sneaker, priceMin, priceMax)) {
+            if (priceFilter(sneaker, priceMin, priceMax)) {              
               const sneakerCard = createSneakerCard(sneaker);
               container.appendChild(sneakerCard);
             }
+            // offset += sneakers.length;
+
           });
         })
         .catch((error) =>
           console.error("Error fetching most popular sneakers:", error)
         );
     } else {
-      fetch("/api/most-popular")
+      fetch(`/api/most-popular?limit=${limit}&offset=${offset}`)
         .then((response) => response.json())
         .then((sneakers) => {
           const container = document.getElementById("sneaker-mostpopular1");
           console.log("ini mostpopular else");
           isPopularActive = true;
-          container.innerHTML = ""; // Clear existing content
+          // sneakerContainer.innerHTML = ""; // Clear existing content
           sneakers.forEach((sneaker) => {
             if (isNewRelease(sneaker.releaseDate)) {
               const sneakerCard = createSneakerCard(sneaker);
               container.appendChild(sneakerCard);
+              console.log(`Updated offset: ${offset}`);    
             }
-            // offset += sneaker.length
+            // offset += sneakers.length;
+
           });
         })
         .catch((error) =>
           console.error("Error fetching most popular sneakers:", error)
         );
+        
     }
   };
 
@@ -726,22 +733,22 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   //API Onlu Jordan
-  fetchonlyjordanSneakers();
+  // fetchonlyjordanSneakers();
 
-  function fetchonlyjordanSneakers() {
-    fetch("/api/onlyjordan")
-      .then((response) => response.json())
-      .then((sneakers) => {
-        const container = document.getElementById("sneaker-mostpopular2");
-        container.innerHTML = ""; // Clear existing content
-        sneakers.map((sneaker) => {
-          container.appendChild(createSneakerCard(sneaker));
-        });
-      })
-      .catch((error) =>
-        console.error("Error fetching only jordan sneakers:", error)
-      );
-  };
+  // function fetchonlyjordanSneakers() {
+  //   fetch("/api/onlyjordan")
+  //     .then((response) => response.json())
+  //     .then((sneakers) => {
+  //       const container = document.getElementById("sneaker-mostpopular2");
+  //       container.innerHTML = ""; // Clear existing content
+  //       sneakers.map((sneaker) => {
+  //         container.appendChild(createSneakerCard(sneaker));
+  //       });
+  //     })
+  //     .catch((error) =>
+  //       console.error("Error fetching only jordan sneakers:", error)
+  //     );
+  // };
 
   //Filter brand
   filterForm.addEventListener("submit", async (event) => {
@@ -767,11 +774,11 @@ document.addEventListener("DOMContentLoaded", () => {
       isFilterPriceActive = true;
       console.log("Filter harga popular jalan");
       sneakerContainer.innerHTML = "";
-      fetchMostPopularSneakers();
+      fetchMostPopularSneakers(true);
     } else if (isFilterActive) {
       isFilterPriceActive = true;
       console.log("Filter harga brand jalan");
-      sneakerContainer.innerHTML = "";
+      // sneakerContainer.innerHTML = "";
       fetchFilteredData();
     } else if (isSearchActive) {
       isFilterPriceActive = true;
@@ -804,6 +811,8 @@ document.addEventListener("DOMContentLoaded", () => {
               if (priceFilter(product, priceMin, priceMax)) {
                 const sneakerCard = createSneakerCard(product);
                 sneakerContainer.appendChild(sneakerCard);
+              console.log(`Updated offset: ${offset}`);              
+
               }
             });
             offset += products.length; // Perbarui offset hanya jika produk diterima
@@ -835,6 +844,8 @@ document.addEventListener("DOMContentLoaded", () => {
             });
             offset += products.length; // Perbarui offset hanya jika produk diterima
             console.log("ini mostpopular else");
+            console.log(`Updated offset: ${offset}`);              
+
 
           } else {
             console.log("Tidak ada produk lebih untuk ditampilkan.");
@@ -871,7 +882,7 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (isPopularActive) {
       console.log("Popular", isPopularActive)
       console.log("berjalan popular");
-      fetchMostPopularSneakers()
+      fetchMostPopularSneakers(false)
       // searchSneaker(false); // Do not clear previous results
     }
     window.showMoreHandled = true;  // Prevent multiple triggers

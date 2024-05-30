@@ -648,3 +648,20 @@ h5{
     width: 100%;
 }
 }
+
+
+
+  .frameimg .circle .fa-heart.active {
+    color: red; /* Warna saat aktif */
+  }
+
+  .frameimg .fa-heart.active {
+    color: red; /* Changes the color of the heart icon to red when it has the 'active' class */
+}
+
+.circle .fa-heart.active {
+    color: red; /* Warna saat aktif */
+  }
+  .fa-heart.active {
+    color: red; /* Changes the color of the heart icon to red when it has the 'active' class */
+} 
