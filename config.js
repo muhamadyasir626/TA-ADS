@@ -5,7 +5,7 @@ const { users, wishlist } = require('./db');
 const async = require('hbs/lib/async');
 const app = express();
 const port = 443;
-const axios = require('axios');
+
 const SneaksAPI = require('sneaks-api');
 const sneaks = new SneaksAPI();
 const session = require('express-session');
@@ -42,6 +42,7 @@ app.get('/', (req, res) => {
 });
 
 app.get('/login', (req, res) => {
+ 
   res.render('login');
 });
 
@@ -130,7 +131,8 @@ app.post("/login", async (req, res) => {
       email: user.email
     };
 
-    return res.redirect('/home');
+    // return res.redirect('/home')
+     res.send('<script>sessionStorage.setItem("userLoggedIn", "true"); window.location.href = "/home";</script>'); ;
   } catch (error) {
     console.error('Login error:', error);
     return res.status(500).send('<script>alert("An error occurred during login.");window.location.href="/login";</script>');
@@ -491,7 +493,15 @@ app.get('/logout', (req, res) => {
     if (err) {
       console.error('Error logging out:', err);
     }
-    res.send('<script>alert("You have been logged out."); window.location.href = "/login";</script>');
+    res.send(`
+            <script>
+                sessionStorage.clear(); // Clears all sessionStorage data
+                localStorage.clear(); // Optionally clear localStorage if used
+                alert("You have been logged out.");
+                window.location.href = "/login";
+            </script>
+        `);
+    // res.send('<script>alert("You have been logged out."); window.location.href = "/login";</script>');
   });
 });
 

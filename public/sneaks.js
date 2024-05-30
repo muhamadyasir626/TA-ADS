@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let checkboxes = [];
   let inputData = "";
-  let limit = 9 ;
+  let limit = 9;
   let offset = 0;
   let isSearchActive = false;
   let isPopularActive = false;
@@ -26,7 +26,7 @@ document.addEventListener("DOMContentLoaded", () => {
     return;
   };
 
-   checkboxes = filterForm.querySelectorAll('input[type="checkbox"]');
+  checkboxes = filterForm.querySelectorAll('input[type="checkbox"]');
 
   if (!checkboxes.length) {
     console.error("No checkboxes found within the filter form");
@@ -37,7 +37,7 @@ document.addEventListener("DOMContentLoaded", () => {
       checkbox.checked = false; // Setiap checkbox di-set tidak terceklis
     });
   };
-  
+
   // Fungsi untuk mereset filter harga
   function resetPriceFilter() {
     const priceMinInput = document.getElementById('hargaMin');
@@ -90,79 +90,82 @@ document.addEventListener("DOMContentLoaded", () => {
 
     const heartIcon = document.createElement("i");
     heartIcon.classList.add("fa", "fa-heart");
-    heartIcon.setAttribute('data-styleID', result.styleID); 
+    heartIcon.setAttribute('data-styleID', result.styleID);
     heartIconContainer.appendChild(heartIcon);
 
     // Asynchronous call to check wishlist
     async function checkWishlist() {
-        try {
-            const response = await fetch(`/api/check-wishlist?styleID=${result.styleID}`);
-            const data = await response.json();
-            if (data.isInWishlist) {
-                heartIcon.classList.add("active"); // Add 'active' class if sneaker is in wishlist
-            }
-        } catch (error) {
-            console.error("Error checking wishlist:", error);
+      try {
+        const response = await fetch(`/api/check-wishlist?styleID=${result.styleID}`);
+        const data = await response.json();
+        if (data.isInWishlist) {
+          heartIcon.classList.add("active"); // Add 'active' class if sneaker is in wishlist
         }
+      } catch (error) {
+        console.error("Error checking wishlist:", error);
+      }
     }
     checkWishlist();
 
     heartIcon.addEventListener("click", async (event) => {
       event.stopPropagation(); // Prevent triggering click events on parent elements
-      const userLoggedIn = sessionStorage.getItem("userLoggedIn"); // Misalkan 'userLoggedIn' adalah status login yang tersimpan
+      const userLoggedIn = sessionStorage.getItem('userLoggedIn');
+       console.log(userLoggedIn)
+
 
       if (!userLoggedIn) {
+       console.log(userLoggedIn)
         alert("Please login first");
-        window.location.href = '/login'; // Redirect ke halaman login
-        return; // Stop further execution
+        window.location.href = '/login';
+        return; // Hentikan eksekusi lebih lanjut
       }
-        const isActive = heartIcon.classList.toggle("active");
-        const url = isActive ? "/add-to-wishlist" : "/remove-from-wishlist";
-        const method = "POST";
+      const isActive = heartIcon.classList.toggle("active");
+      const url = isActive ? "/add-to-wishlist" : "/remove-from-wishlist";
+      const method = "POST";
 
-        try {
-            const response = await fetch(url, {
-                method: method,
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    shoeName: result.shoeName,
-                    brand: result.brand,
-                    releaseDate: result.releaseDate,
-                    description: result.description,
-                    colorway: result.colorway,
-                    make: result.make,
-                    retailPrice: result.retailPrice,
-                    styleID: result.styleID,
-                    thumbnail: result.thumbnail,
-                    description: result.description,
-                    resellLinks: result.resellLinks,
-                    lowestResellPrice: result.lowestResellPrice,
-                }),
-            });
-            const data = await response.json();
-            if (!response.ok) throw new Error(data.message);
-            alert(`Sneaker ${isActive ? 'added to' : 'removed from'} wishlist!`);
-        } catch (error) {
-            console.error(`Error ${isActive ? 'adding to' : 'removing from'} wishlist:`, error);
-            alert(`An error occurred: ${error.message}`);
-        }
+      try {
+        const response = await fetch(url, {
+          method: method,
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            shoeName: result.shoeName,
+            brand: result.brand,
+            releaseDate: result.releaseDate,
+            description: result.description,
+            colorway: result.colorway,
+            make: result.make,
+            retailPrice: result.retailPrice,
+            styleID: result.styleID,
+            thumbnail: result.thumbnail,
+            description: result.description,
+            resellLinks: result.resellLinks,
+            lowestResellPrice: result.lowestResellPrice,
+          }),
+        });
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.message);
+        alert(`Sneaker ${isActive ? 'added to' : 'removed from'} wishlist!`);
+      } catch (error) {
+        console.error(`Error ${isActive ? 'adding to' : 'removing from'} wishlist:`, error);
+        alert(`An error occurred: ${error.message}`);
+      }
     });
 
     const image = document.createElement("img");
     image.src = result.thumbnail;
     image.alt = result.styleID;
     image.addEventListener("click", (event) => {
-        event.preventDefault(); // Prevent default link behavior
-        showPopUp_search(result);
+      event.preventDefault(); // Prevent default link behavior
+      showPopUp_search(result);
     });
 
     const imageLink = document.createElement("a");
     imageLink.textContent = result.shoeName;
     imageLink.addEventListener("click", (event) => {
-        event.preventDefault(); // Prevent default link behavior
-        showPopUp_search(result);
+      event.preventDefault(); // Prevent default link behavior
+      showPopUp_search(result);
     });
 
     frameImg.appendChild(heartIconContainer);
@@ -170,7 +173,7 @@ document.addEventListener("DOMContentLoaded", () => {
     frameImg.appendChild(imageLink);
 
     return frameImg;
-}
+  }
 
   function showPopUp_search(sneaker) {
     if (!sneaker.lowestResellPrice || !sneaker.resellLinks) {
@@ -178,7 +181,7 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Error: Missing resell prices or links");
       return; // Stop execution if data is incomplete
     }
-  
+
     const popUp = document.createElement("div");
     popUp.className = "pop-up";
     popUp.innerHTML = `
@@ -241,10 +244,10 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
     
   `;
-    
+
     document.body.appendChild(popUp); // Append pop-up to the body
 
-    
+
     // Add event listeners
     const closeBtn = popUp.querySelector(".close-button");
     closeBtn.addEventListener("click", () => {
@@ -252,20 +255,23 @@ document.addEventListener("DOMContentLoaded", () => {
       setTimeout(() => {
         checkWishlist();
         updateHeartIconsOnPage(); // Fungsi baru untuk mengupdate ikon hati pada halaman
-      }, 0); 
+      }, 0);
     });
-    
-   
+
+
 
     const heartIcon = popUp.querySelector(".fa-heart");
     heartIcon.addEventListener("click", async (event) => {
       event.stopPropagation(); // Prevent triggering click events on parent elements
-      const userLoggedIn = sessionStorage.getItem("userLoggedIn"); // Misalkan 'userLoggedIn' adalah status login yang tersimpan
+      const userLoggedIn = sessionStorage.getItem('userLoggedIn');
+       console.log(userLoggedIn)
+
 
       if (!userLoggedIn) {
+       console.log(userLoggedIn)
         alert("Please login first");
-        window.location.href = '/login'; // Redirect ke halaman login
-        return; // Stop further execution
+        window.location.href = '/login';
+        return; // Hentikan eksekusi lebih lanjut
       }
       heartIcon.classList.toggle("active"); // Toggle active class to change icon color
 
@@ -301,47 +307,47 @@ document.addEventListener("DOMContentLoaded", () => {
         alert(`An error occurred: ${error.message}`);
       }
     });
-    checkWishlist(); 
+    checkWishlist();
 
     async function checkWishlist() {
       try {
-          const response = await fetch(`/api/check-wishlist?styleID=${sneaker.styleID}`);
-          if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          const data = await response.json();
-          if (data.isInWishlist) {
-              heartIcon.classList.add("active"); // Add 'active' class if sneaker is in wishlist
-          }
+        const response = await fetch(`/api/check-wishlist?styleID=${sneaker.styleID}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        if (data.isInWishlist) {
+          heartIcon.classList.add("active"); // Add 'active' class if sneaker is in wishlist
+        }
       } catch (error) {
-          console.error("Error checking wishlist:", error);
+        console.error("Error checking wishlist:", error);
       }
     }
   };
 
   function updateHeartIconsOnPage() {
     document.querySelectorAll('.fa-heart').forEach(async icon => {
-        const styleID = icon.getAttribute('data-styleID');
-        try {
-            const response = await fetch(`/api/check-wishlist?styleID=${styleID}`);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const data = await response.json();
-            if (data.isInWishlist) {
-              icon.classList.add("active");
-              console.log("active")
-              console.log(styleID)
-              
-            } else {
-              icon.classList.remove("active");
-              console.log("remove")
-              console.log(styleID)
-
-            }
-        } catch (error) {
-            console.error("Error checking wishlist status for icon:", error);
+      const styleID = icon.getAttribute('data-styleID');
+      try {
+        const response = await fetch(`/api/check-wishlist?styleID=${styleID}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
+        const data = await response.json();
+        if (data.isInWishlist) {
+          icon.classList.add("active");
+          console.log("active")
+          console.log(styleID)
+
+        } else {
+          icon.classList.remove("active");
+          console.log("remove")
+          console.log(styleID)
+
+        }
+      } catch (error) {
+        console.error("Error checking wishlist status for icon:", error);
+      }
     });
   };
 
@@ -362,32 +368,35 @@ document.addEventListener("DOMContentLoaded", () => {
     circle.className = "circle";
     const heartIcon = document.createElement("i");
     heartIcon.className = "fa fa-heart";
-    heartIcon.setAttribute('data-styleID', sneaker.styleID); 
+    heartIcon.setAttribute('data-styleID', sneaker.styleID);
     circle.appendChild(heartIcon);
     async function checkWishlist() {
       try {
-          const response = await fetch(`/api/check-wishlist?styleID=${sneaker.styleID}`);
-          if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          const data = await response.json();
-          if (data.isInWishlist) {
-              heartIcon.classList.add("active"); // Add 'active' class if sneaker is in wishlist
-          }
+        const response = await fetch(`/api/check-wishlist?styleID=${sneaker.styleID}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        if (data.isInWishlist) {
+          heartIcon.classList.add("active"); // Add 'active' class if sneaker is in wishlist
+        }
       } catch (error) {
-          console.error("Error checking wishlist:", error);
+        console.error("Error checking wishlist:", error);
       }
-  }
-    checkWishlist(); 
+    }
+    checkWishlist();
 
-    heartIcon.addEventListener("click", async (event) => {
+    heartIcon.addEventListener("click", async (event,req) => {
       event.stopPropagation(); // Prevent triggering click events on parent elements
-      const userLoggedIn = sessionStorage.getItem("userLoggedIn"); // Misalkan 'userLoggedIn' adalah status login yang tersimpan
+      const userLoggedIn = sessionStorage.getItem('userLoggedIn');
+      console.log(userLoggedIn)
 
       if (!userLoggedIn) {
+       console.log(userLoggedIn)
+
         alert("Please login first");
-        window.location.href = '/login'; // Redirect ke halaman login
-        return; // Stop further execution
+        window.location.href = '/login';
+        return ; // Hentikan eksekusi lebih lanjut
       }
       heartIcon.classList.toggle("active");
       if (heartIcon.classList.contains("active")) {
@@ -447,7 +456,7 @@ document.addEventListener("DOMContentLoaded", () => {
         }
       }
     });
-    
+
     const image = document.createElement("img");
     image.src = sneaker.thumbnail;
     image.alt = sneaker.styleID;
@@ -477,7 +486,7 @@ document.addEventListener("DOMContentLoaded", () => {
       console.error("Error: Missing resell prices or links");
       return; // Stop execution if data is incomplete
     }
-  
+
     const popUp = document.createElement("div");
     popUp.className = "pop-up";
     popUp.innerHTML = `
@@ -540,7 +549,7 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
     
   `;
-    
+
     document.body.appendChild(popUp); // Append pop-up to the body
 
     // Add event listeners
@@ -550,19 +559,22 @@ document.addEventListener("DOMContentLoaded", () => {
       setTimeout(() => {
         checkWishlist();
         updateHeartIconsOnPage(); // Fungsi baru untuk mengupdate ikon hati pada halaman
-      }, 0); 
+      }, 0);
     });
 
     const heartIcon = popUp.querySelector(".fa-heart");
-    heartIcon.setAttribute('data-styleID', sneaker.styleID); 
+    heartIcon.setAttribute('data-styleID', sneaker.styleID);
     heartIcon.addEventListener("click", async (event) => {
       event.stopPropagation(); // Prevent triggering click events on parent elements
-      const userLoggedIn = sessionStorage.getItem("userLoggedIn"); // Misalkan 'userLoggedIn' adalah status login yang tersimpan
+      const userLoggedIn = sessionStorage.getItem('userLoggedIn');
+       console.log(userLoggedIn)
+
 
       if (!userLoggedIn) {
+       console.log(userLoggedIn)
         alert("Please login first");
-        window.location.href = '/login'; // Redirect ke halaman login
-        return; // Stop further execution
+        window.location.href = '/login';
+        return; // Hentikan eksekusi lebih lanjut
       }
       heartIcon.classList.toggle("active"); // Toggle active class to change icon color
       heartIcon.setAttribute('data-styleID', sneaker.styleID);
@@ -598,51 +610,51 @@ document.addEventListener("DOMContentLoaded", () => {
         alert(`An error occurred: ${error.message}`);
       }
     });
-    checkWishlist(); 
+    checkWishlist();
 
     async function checkWishlist() {
       try {
-          const response = await fetch(`/api/check-wishlist?styleID=${sneaker.styleID}`);
-          if (!response.ok) {
-              throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          const data = await response.json();
-          if (data.isInWishlist) {
-              heartIcon.classList.add("active"); // Add 'active' class if sneaker is in wishlist
-          }
+        const response = await fetch(`/api/check-wishlist?styleID=${sneaker.styleID}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        const data = await response.json();
+        if (data.isInWishlist) {
+          heartIcon.classList.add("active"); // Add 'active' class if sneaker is in wishlist
+        }
       } catch (error) {
-          console.error("Error checking wishlist:", error);
+        console.error("Error checking wishlist:", error);
       }
-  
-    } 
+
+    }
   };
 
   function updateHeartIconsOnPage() {
     document.querySelectorAll('.fa-heart').forEach(async icon => {
-        const styleID = icon.getAttribute('data-styleID');
-        try {
-            const response = await fetch(`/api/check-wishlist?styleID=${styleID}`);
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const data = await response.json();
-            if (data.isInWishlist) {
-              icon.classList.add("active");
-              console.log("active")
-              console.log(styleID)
-              
-            } else {
-              icon.classList.remove("active");
-              console.log("remove")
-              console.log(styleID)
-
-            }
-        } catch (error) {
-            console.error("Error checking wishlist status for icon:", error);
+      const styleID = icon.getAttribute('data-styleID');
+      try {
+        const response = await fetch(`/api/check-wishlist?styleID=${styleID}`);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
+        const data = await response.json();
+        if (data.isInWishlist) {
+          icon.classList.add("active");
+          console.log("active")
+          console.log(styleID)
+
+        } else {
+          icon.classList.remove("active");
+          console.log("remove")
+          console.log(styleID)
+
+        }
+      } catch (error) {
+        console.error("Error checking wishlist status for icon:", error);
+      }
     });
   };
-  
+
   hearts.forEach(function (heart) {
     heart.addEventListener("click", function () {
       // Toggle kelas 'active'
@@ -656,54 +668,54 @@ document.addEventListener("DOMContentLoaded", () => {
   function fetchMostPopularSneakers() {
     if (isFilterPriceActive) {
       fetch("/api/most-popular")
-      .then((response) => response.json())
-      .then((sneakers) => {
-        const container = document.getElementById("sneaker-mostpopular1");
-        console.log("ini mostpopular if");
-        isPopularActive = true;
-        container.innerHTML = ""; // Clear existing content
-        console.log("max =", priceMax);
-        console.log("min =", priceMin);
-        sneakers.forEach((sneaker) => {
-          if (priceFilter(sneaker, priceMin, priceMax)) {
-            const sneakerCard = createSneakerCard(sneaker);
-            container.appendChild(sneakerCard);
-          }
-        });
-      })
-      .catch((error) =>
-        console.error("Error fetching most popular sneakers:", error)
-      );
+        .then((response) => response.json())
+        .then((sneakers) => {
+          const container = document.getElementById("sneaker-mostpopular1");
+          console.log("ini mostpopular if");
+          isPopularActive = true;
+          container.innerHTML = ""; // Clear existing content
+          console.log("max =", priceMax);
+          console.log("min =", priceMin);
+          sneakers.forEach((sneaker) => {
+            if (priceFilter(sneaker, priceMin, priceMax)) {
+              const sneakerCard = createSneakerCard(sneaker);
+              container.appendChild(sneakerCard);
+            }
+          });
+        })
+        .catch((error) =>
+          console.error("Error fetching most popular sneakers:", error)
+        );
     } else {
       fetch("/api/most-popular")
-      .then((response) => response.json())
-      .then((sneakers) => {
-        const container = document.getElementById("sneaker-mostpopular1");
-        console.log("ini mostpopular else");
-        isPopularActive = true;
-        container.innerHTML = ""; // Clear existing content
-        sneakers.forEach((sneaker) => {
-          if (isNewRelease(sneaker.releaseDate)) {
-            const sneakerCard = createSneakerCard(sneaker);
-            container.appendChild(sneakerCard);
-          }
-          // offset += sneaker.length
-        });
-      })
-      .catch((error) =>
-        console.error("Error fetching most popular sneakers:", error)
-      );
+        .then((response) => response.json())
+        .then((sneakers) => {
+          const container = document.getElementById("sneaker-mostpopular1");
+          console.log("ini mostpopular else");
+          isPopularActive = true;
+          container.innerHTML = ""; // Clear existing content
+          sneakers.forEach((sneaker) => {
+            if (isNewRelease(sneaker.releaseDate)) {
+              const sneakerCard = createSneakerCard(sneaker);
+              container.appendChild(sneakerCard);
+            }
+            // offset += sneaker.length
+          });
+        })
+        .catch((error) =>
+          console.error("Error fetching most popular sneakers:", error)
+        );
     }
   };
 
- 
+
   function priceFilter(sneaker, minPrice, maxPrice) {
     console.log("max =", maxPrice);
     console.log("min =", minPrice);
     const prices = sneaker.lowestResellPrice;
     return (prices.stockX >= minPrice && prices.stockX <= maxPrice) ||
-           (prices.goat >= minPrice && prices.goat <= maxPrice) ||
-           (prices.flightClub >= minPrice && prices.flightClub <= maxPrice);
+      (prices.goat >= minPrice && prices.goat <= maxPrice) ||
+      (prices.flightClub >= minPrice && prices.flightClub <= maxPrice);
   };
 
   function isNewRelease(releaseDate) {
@@ -747,8 +759,8 @@ document.addEventListener("DOMContentLoaded", () => {
   //filter price
   filterPriceform.addEventListener("submit", async (event) => {
     event.preventDefault();
-    priceMin = document.getElementById('hargaMin').value||0;
-    priceMax = document.getElementById('hargaMax').value ||10000;
+    priceMin = document.getElementById('hargaMin').value || 0;
+    priceMax = document.getElementById('hargaMax').value || 10000;
     console.log("max =", priceMax);
     console.log("min =", priceMin);
     if (isPopularActive) {
@@ -756,7 +768,7 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log("Filter harga popular jalan");
       sneakerContainer.innerHTML = "";
       fetchMostPopularSneakers();
-    } else if(isFilterActive){
+    } else if (isFilterActive) {
       isFilterPriceActive = true;
       console.log("Filter harga brand jalan");
       sneakerContainer.innerHTML = "";
@@ -779,13 +791,13 @@ document.addEventListener("DOMContentLoaded", () => {
       console.log("ini filter if");
       console.log("max =", priceMax);
       console.log("min =", priceMin);
-    
+
       fetch(`/api/filter?q=${currentQuery}&limit=${limit}&offset=${offset}`, {
         headers: {
           "Cache-Control": "no-cache",
         },
       })
-      .then((response) => response.json())
+        .then((response) => response.json())
         .then((products) => {
           if (products.length > 0) {
             products.forEach(product => {
@@ -793,48 +805,48 @@ document.addEventListener("DOMContentLoaded", () => {
                 const sneakerCard = createSneakerCard(product);
                 sneakerContainer.appendChild(sneakerCard);
               }
-              });
+            });
             offset += products.length; // Perbarui offset hanya jika produk diterima
-           
+
           } else {
-              console.log("Tidak ada produk lebih untuk ditampilkan.");
-              alert("Tidak ada produk lebih untuk ditampilkan.");
+            console.log("Tidak ada produk lebih untuk ditampilkan.");
+            alert("Tidak ada produk lebih untuk ditampilkan.");
           }
-      })
-      .catch((error) => {
+        })
+        .catch((error) => {
           console.error("Gagal mengambil data sneakers:", error);
           sneakerContainer.innerHTML = `<p class="error">Gagal memuat produk. Silakan coba lagi.</p>`;
-      });
-      
+        });
+
     } else {
       console.log(`Fetching data with query: ${currentQuery}, limit:${limit}, offset: ${offset}`);
-    
+
       fetch(`/api/filter?q=${currentQuery}&limit=${limit}&offset=${offset}`, {
         headers: {
           "Cache-Control": "no-cache",
         },
       })
-      .then((response) => response.json())
-      .then((products) => {
+        .then((response) => response.json())
+        .then((products) => {
           if (products.length > 0) {
-              products.forEach(product => {
-                  const sneakerCard = createSneakerCard(product);
-                  sneakerContainer.appendChild(sneakerCard);
-              });
+            products.forEach(product => {
+              const sneakerCard = createSneakerCard(product);
+              sneakerContainer.appendChild(sneakerCard);
+            });
             offset += products.length; // Perbarui offset hanya jika produk diterima
             console.log("ini mostpopular else");
-            
+
           } else {
-              console.log("Tidak ada produk lebih untuk ditampilkan.");
-              alert("Tidak ada produk lebih untuk ditampilkan.");
+            console.log("Tidak ada produk lebih untuk ditampilkan.");
+            alert("Tidak ada produk lebih untuk ditampilkan.");
           }
-      })
-      .catch((error) => {
+        })
+        .catch((error) => {
           console.error("Gagal mengambil data sneakers:", error);
           sneakerContainer.innerHTML = `<p class="error">Gagal memuat produk. Silakan coba lagi.</p>`;
-      });
+        });
     }
-   
+
   };
 
 
