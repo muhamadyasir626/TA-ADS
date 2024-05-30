@@ -13,7 +13,7 @@
     src: url('../Fonts/iran_sans_medi.woff') format('woff');
 }
 *{
-    font-family:  'Roboto Condensed';
+    font-family:  'Roboto Slab';
     margin: 0;
     box-sizing: border-box;
     outline: none;
@@ -43,7 +43,7 @@ header{
 
 header .search-box{
     width: max-content;
-    display: flex;
+    display: none;
     align-items: center;
     padding: 10px;
     border-radius: 10px;
@@ -293,6 +293,7 @@ section{
 .frame1 .welcome{
     font-family: "roboto Slab";
     font-size: 1.5rem;
+    width: 90%;
 }
 
 
@@ -590,6 +591,19 @@ section{
     font-size: 2rem;
 }
 
+.box .role{
+    margin-top: 5%
+}
+
+.box a{
+    font-size: 1.2rem;
+    text-align: justify;
+}
+
+.box .adit{
+    margin-top: 5%;
+}
+
 
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
 body{
@@ -619,12 +633,13 @@ ul{
 
 .blog{
     margin-bottom: 10%;
+    margin-top: 5%;
 }
 
 .footer{
 	background-color: #3E3E3E;
-    padding: 37px 0;
-    
+    padding: 15px 0;
+    position: relative;
 }
 .footer-col{
    width: 33%;
@@ -709,11 +724,25 @@ ul{
     
 }
 
-.inc{
+.footer-col .get{
+    margin-bottom: 1rem;
+}
+
+h5{
     margin-left: 75%;
     color: #C9C9C9;
     font-family: "roboto slab";
     font-size: 1.1rem;
+}
+
+.inc{
+  color: #C9C9C9;
+  font-family: "roboto slab";
+  font-size: 1.1rem;
+  margin-left: 7.5%;
+  margin-right: 7.5%;
+  position: relative;
+  text-align: right;
 }
 
 /*responsive*/
@@ -729,8 +758,23 @@ ul{
 }
 }
 
-/* toggle ikon heart */
-.liked {
-    color: red; /* or any color you prefer */
-  } 
+.frameimg .circle .fa-heart {
+    font-size: 2rem;
+    color: #ffffff;
+}
+
+  .frameimg .circle .fa-heart.active {
+    color: red; /* Warna saat aktif */
+  }
+
+  .frameimg .fa-heart.active {
+    color: red; /* Changes the color of the heart icon to red when it has the 'active' class */
+}
+
+.circle .fa-heart.active {
+    color: red; /* Warna saat aktif */
+  }
+  .fa-heart.active {
+    color: red; /* Changes the color of the heart icon to red when it has the 'active' class */
+} 
 

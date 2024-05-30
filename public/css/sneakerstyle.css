@@ -153,7 +153,7 @@ header .navbar .button:hover{
 }
 /* end header  */
 section{
-    padding: 2rem 15%;
+ display: flex;
 }
 .home{
     padding: 0;
@@ -280,7 +280,7 @@ section{
     justify-content: center;
     align-items: center;
     text-align: center;
-    margin-bottom: 3%;
+    margin-bottom: 4%;
     margin-top: 10%;
 }
 
@@ -313,8 +313,8 @@ section{
 }
 
 .product .filter{
-    position: absolute;
-    width: 25%;
+    position: relative;
+    width: 350%;
     height: 100%;
     left: 1%;
     overflow: hidden;
@@ -326,7 +326,7 @@ section{
     background-color: #ffffff;
     width: 70%;
     height: 40%;
-    left: 12%;
+    left: 7%;
     border-radius: 15px;
     flex-wrap: wrap;
     border: 2px solid rgb(187, 187, 187);
@@ -335,6 +335,7 @@ section{
 }
 
 .product .filterbox1 a{
+    font-weight: bold;
     display: block; /* Mengubah <a> menjadi elemen blok */
     font-family: "Roboto Slab";
     font-size: 2rem;
@@ -349,10 +350,9 @@ section{
 .product .filterbox1 hr{
     border: #000;
     border-top: 2px solid #eee;
-    margin-bottom: 15px;
 }
 
-.product .filterbox1 .checkbox-container {
+#sneaker-filter-form {
     margin-left: 28px;
     display: flex;
     flex-direction: column;
@@ -369,17 +369,54 @@ section{
     margin-right: 10px;
 }
 
-.product .box-container{
-    display: flex;
-    flex-wrap: wrap; /* Bungkus ke baris berikutnya */
-    gap: 0px; /* Sesuaikan jarak antar kotak */
-    justify-content: space-between; /* Atur penyebaran kotak produk */
-    margin: 0 auto;
-    width: 100%;
-    background-color: #ffffff;
-    gap: 15px; /* Menambahkan gap antar box */
-    margin-left: 15%;
+.footer-col .get{
+    margin-bottom: 1rem;
 }
+
+
+.filterbox1 button{
+    padding: 5px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-right: 15%;
+    margin-bottom: 15px;
+    margin-top: 5px;
+}
+
+.filterbox1 button:hover{
+    background-color: #EB4511;
+    color: white;
+}
+
+.filter-harga{
+    margin-left: 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.filter-harga input{
+    border: none;
+    border-radius: 10px;
+    width: 85%;
+    padding: 10px;
+    background-color: #dadada;
+}
+
+.product .box-container{
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin: 0 auto;
+    width: 900%;
+    background-color: #ffffff;
+    gap: 15px;
+    right: 2%;
+}
+
+
 
 .product .box-container .frameimg{
     flex: 1 1 calc(30% - 20px);
@@ -433,6 +470,8 @@ section{
     border-radius: 50%;
     margin-left: 83%;
     margin-top: 10px;
+    z-index: 10;
+    position: relative;
  }
 
 
@@ -455,6 +494,11 @@ section{
 .product .box-container .box:hover .icons{
     left: 1rem;
 }
+
+.product .box-container .frameimg:hover img{
+    transform: scale(1.2);
+}
+
 .product .box-container .box .icons a:hover{
     color: orangered;
     color: #fff;
@@ -663,8 +707,8 @@ ul{
 }
 .footer{
 	background-color: #3E3E3E;
-    padding: 37px 0;
-    
+    padding: 15px 0;
+    position: relative;
 }
 .footer-col{
    width: 33%;
@@ -750,11 +794,15 @@ ul{
 }
 
 .inc{
-    margin-left: 75%;
     color: #C9C9C9;
     font-family: "roboto slab";
     font-size: 1.1rem;
+    margin-left: 7.5%;
+    margin-right: 7.5%;
+    position: relative;
+    text-align: right;
 }
+
 
 /*responsive*/
 @media(max-width: 767px){
@@ -774,20 +822,42 @@ ul{
 
 .show-more-container {
     margin: 20px 0;
+    margin-left: 26%;
+    margin-right: 2%;
   }
   
   #show-more {
+    position: relative;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin-left: 15%;
+
   }
   
   #show-more:hover {
     background-color:#EB4511 ;
   }
   
+  .frameimg .circle .fa-heart {
+    font-size: 2rem;
+    color: #ffffff;
+}
 
+  .frameimg .circle .fa-heart.active {
+    color: red; /* Warna saat aktif */
+  }
+
+  .frameimg .fa-heart.active {
+    color: red; /* Changes the color of the heart icon to red when it has the 'active' class */
+}
+
+    .circle .fa-heart.active {
+        color: red; /* Warna saat aktif */
+      }
+      .fa-heart.active {
+        color: red; /* Changes the color of the heart icon to red when it has the 'active' class */
+    }
+ 
 
 

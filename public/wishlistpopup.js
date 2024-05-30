@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", () => {
     if (target.classList.contains('fa-heart')) {
       const sneakerId = target.closest('.frameimg').getAttribute('data-sneaker-id');
       const confirmDelete = confirm("Are you sure you want to remove this item from your wishlist?");
-      console.log("style ID: ", sneakerId); // Menampilkan ID sneaker ke konsol
+      console.log("Sneaker ID: ", sneakerId); // Menampilkan ID sneaker ke konsol
 
       if (confirmDelete) {
   try {
@@ -75,7 +75,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="framedes">
         <h3>${sneaker.shoeName}</h3>
         <hr>
-        <p>Start from $${sneaker.retailPrice}</p>
+        <p>Retail Price $${sneaker.retailPrice}</p>
         <a class="description-text">${sneaker.description}</a>
         <div class="info">
           <div class="brand">
@@ -113,11 +113,67 @@ document.addEventListener("DOMContentLoaded", () => {
     </div>
   </div>
 `;
-    popUp.querySelector('.close-button').addEventListener('click', () => {
-      document.body.removeChild(popUp);
-    });
+document.body.appendChild(popUp); // Append pop-up to the body
 
-    document.body.appendChild(popUp);
+// Add event listeners
+const closeBtn = popUp.querySelector(".close-button");
+closeBtn.addEventListener("click", () => {
+  document.body.removeChild(popUp);
+});
+
+const heartIcon = popUp.querySelector(".fa-heart");
+heartIcon.addEventListener("click", async (event) => {
+  event.stopPropagation(); // Prevent triggering click events on parent elements
+  heartIcon.classList.toggle("active"); // Toggle active class to change icon color
+
+  const isActive = heartIcon.classList.contains("active");
+  const url = isActive ? "/add-to-wishlist" : "/remove-from-wishlist";
+  const method = "POST"; // Use POST for both adding and removing
+
+  try {
+    const response = await fetch(url, {
+      method: method,
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        shoeName: sneaker.shoeName,
+        brand: sneaker.brand,
+        releaseDate: sneaker.releaseDate,
+        description: sneaker.description,
+        colorway: sneaker.colorway,
+        make: sneaker.make,
+        retailPrice: sneaker.retailPrice,
+        styleID: sneaker.styleID,
+        thumbnail: sneaker.thumbnail,
+        resellLinks: sneaker.resellLinks,
+        lowestResellPrice: sneaker.lowestResellPrice,
+      }),
+    });
+    const data = await response.json();
+    if (!response.ok) throw new Error(data.message);
+    alert(`Sneaker ${isActive ? 'added to' : 'removed from'} wishlist!`);
+  } catch (error) {
+    console.error(`Error ${isActive ? 'adding to' : 'removing from'} wishlist:`, error);
+    alert(`An error occurred: ${error.message}`);
+  }
+});
+checkWishlist(); 
+
+async function checkWishlist() {
+  try {
+      const response = await fetch(`/api/check-wishlist?styleID=${sneaker.styleID}`);
+      if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      if (data.isInWishlist) {
+          heartIcon.classList.add("active"); // Add 'active' class if sneaker is in wishlist
+      }
+  } catch (error) {
+      console.error("Error checking wishlist:", error);
+  }
+}
   }
 
 
@@ -146,7 +202,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
 });
 
-
 document.addEventListener("DOMContentLoaded", function () {
   var head = document.getElementsByTagName('head')[0];
 
@@ -156,5 +211,5 @@ document.addEventListener("DOMContentLoaded", function () {
   link.href = '/.css';
 
   // Menambahkan link ke head
-  head.appendChild(link);
+  // head.appendChild(link);
 });

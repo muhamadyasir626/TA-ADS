@@ -1,7 +1,3 @@
-sneaks.getMostPopular( 1, (err, products) => {
-  if (err) {
-    console.error('Error:', err);
-  } else {
-    console.log('Products:', products);
-  }
-});
+sneaks.getProducts("Yeezy Cinder", 10, function(err, products){
+//   console.log(products)
+// })

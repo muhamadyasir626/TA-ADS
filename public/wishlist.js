@@ -13,3 +13,4 @@ function removeFromWishlist(sneakerId) {
 
   
   
+  

@@ -43,7 +43,7 @@
 
           <% if (items.length) { %>
             <% items.forEach(function(item) { %>
-              <div class="frameimg" data-sneaker-id="<%= item.styleID %>">
+              <div class="frameimg" data-sneaker-id="<%= item.styleID %>" >
                 <div class="circle">
                   <i class="fa fa-heart"></i>
                 </div>
@@ -52,11 +52,47 @@
               </div>
             <% }) %>
           <% } else { %>
-            <p>Your wishlist is empty.</p>
+            <p class = "empty">Your wishlist is empty.</p>
           <% } %>
         </div>  
 </section>
 </div>
+
+<footer class="footer">
+  <div class="container">
+      <div class="row">
+          <div class="footer-col">
+              <h4 class = "sneaker">Sneaker</h4>
+              <h4 class = "scout">Scout</h4>
+              <div class="social-links">
+                  <a href="#"><i class="fab fa-facebook-f"></i></a>
+                  <a href="#"><i class="fab fa-twitter"></i></a>
+                  <a href="#"><i class="fab fa-instagram"></i></a>
+
+              </div>
+          </div>
+          <div class="footer-col">
+              <h4 class="get">get help</h4>
+              <ul>
+                  <li><a href="#">sneakerscout@gmail.com</a></li>
+                  <li><a href="#">+6281322510027</a></li>
+                  <li><a href="#">returns</a></li>
+
+              </ul>
+          </div>
+     
+          <div class="footer-col">
+              <h3 class="text">“Step into the scene. Whether you're cruising the streets or 
+                  lighting up your collection, our sneakers are here to make every 
+                  step iconic. Keep connected, stay stylish, and let your shoes do the talking.”</h3>
+            
+          </div>
+      </div>
+  </div>
+  <hr style="width: 85%; margin: 20px auto; border: 1px solid #ccc;">
+  <h5 class="Inc">2024 Sneaker Scout Inc. All rights reserved</h5>
+</footer>
+
 <script src="/wishlistpopup.js"></script>
 </body>
 </html>

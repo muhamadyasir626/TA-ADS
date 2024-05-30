@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
        <div class="framedes">
          <h3>${sneaker.shoeName}</h3>
          <hr>
-         <p>Start from $${sneaker.retailPrice}</p>
+         <p>Retail Price $${sneaker.retailPrice}</p>
          <a>${sneaker.description}</a>
          <div class="info">
            <div class="brand">
@@ -143,7 +143,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   formEl.addEventListener("submit", (event) => {
     event.preventDefault();
-    offset = 0; // Reset offset to zero to start from the beginning
+    offset = 0; // Reset offset to zero to Retail Price the beginning
     searchSneaker(true);
   });
 

@@ -176,6 +176,7 @@ section{
     font-size: 3rem;
     font-family: "roboto slab";
     margin-top: 70px;
+    font-weight: bold;
   }
 
   .heading{
@@ -192,11 +193,12 @@ section{
     display: flex;
     flex-wrap: wrap; /* Bungkus ke baris berikutnya */
     gap: 0px; /* Sesuaikan jarak antar kotak */
-    margin: 3%;
     width: 100%;
     background-color: #ffffff;
     gap: 15px; /* Menambahkan gap antar box */
     justify-content: flex-start; /* Item mulai dari kiri dan tetap di kiri */
+    text-align: center;
+    margin-bottom: 20%;
 }
 
 .product .box-container .frameimg {
@@ -483,3 +485,166 @@ section{
     }
  
  }
+
+.box-container .empty{
+    font-size: 2rem;
+    font-family: "roboto slab";
+    margin-left: 40%;
+    margin-right: 40%;
+    background-color: #dadada;
+    padding: 1rem;
+    border-radius: 10px;
+    margin-top: 15rem;
+ }
+
+ body{
+	line-height: 1.5;
+	font-family: 'Poppins', sans-serif;
+}
+*{
+	margin:0;
+	padding:0;
+	box-sizing: border-box;
+}
+
+.container{
+    padding: 10px 0;
+}
+
+.row{
+	display: flex;;
+	flex-wrap: wrap;
+    max-width: 100%;
+    margin-bottom: -75px;
+}
+
+ul{
+	list-style: none;
+}
+
+.blog{
+    margin-bottom: 10%;
+    margin-top: 5%;
+}
+
+.footer{
+	background-color: #3E3E3E;
+    padding: 15px 0;
+    position: relative;
+}
+.footer-col{
+   width: 33%;
+   margin-top: 20px;
+   padding: 0 110px;
+
+}
+.footer-col h4{
+	font-size: 18px;
+	color: #ffffff;
+	text-transform: capitalize;
+	margin-bottom: 30px;
+	font-weight: 500;
+	position: relative;
+    
+}
+
+.footer-col ul li:not(:last-child){
+	margin-bottom: 10px;
+}
+.footer-col ul li a{
+	font-size: 16px;
+	text-transform: capitalize;
+	color: #ffffff;
+	text-decoration: none;
+	font-weight: 300;
+	color: #bbbbbb;
+	display: block;
+	transition: all 0.3s ease;
+}
+.footer-col ul li a:hover{
+	color: #ffffff;
+	padding-left: 8px;
+}
+
+.footer-col .social-links{
+    transform: translateY(-130px);
+    margin-left: 15px;
+    margin-top: 20px; /* Atur jarak vertikal logo sosial media */
+    margin-bottom: 20px;
+}
+
+
+.footer .social-links a {
+    display: inline-block;
+    margin: 0 10px; /* Jarak antar ikon */
+    font-size: 30px; /* Ukuran ikon */
+    color: #fff; /* Warna ikon */
+    transition: color 0.3s ease;
+    
+}
+.footer-col .social-links a:hover{
+	color: #24262b;
+	background-color: #ffffff;
+}
+
+.footer-col .sneaker{
+    position: relative;
+    color: #EB4511;
+    font-family: "most wazted";
+    font-size: 5rem;
+    bottom: 20px;
+}
+
+.footer-col .scout{
+    position: relative;
+    color: #EB4511;
+    font-family: "most wazted";
+    font-size: 5rem;
+    left: 10%;
+    bottom: 38%;
+}
+
+.footer-col h3{
+    text-align: right;
+    font-size: 14px;
+	color: #ffffff;
+	text-transform: capitalize;
+	margin-bottom: 35px;
+	font-weight: 500;
+	position: relative;
+    
+}
+
+.footer-col .get{
+    margin-bottom: 1rem;
+}
+
+h5{
+    margin-left: 75%;
+    color: #C9C9C9;
+    font-family: "roboto slab";
+    font-size: 1.1rem;
+}
+
+.inc{
+  color: #C9C9C9;
+  font-family: "roboto slab";
+  font-size: 1.1rem;
+  margin-left: 7.5%;
+  margin-right: 7.5%;
+  position: relative;
+  text-align: right;
+}
+
+/*responsive*/
+@media(max-width: 767px){
+  .footer-col{
+    width: 50%;
+    margin-bottom: 30px;
+}
+}
+@media(max-width: 574px){
+  .footer-col{
+    width: 100%;
+}
+}

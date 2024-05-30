@@ -44,7 +44,7 @@ header{
 
 header .search-box{
     width: max-content;
-    display: flex;
+    display: none;
     align-items: center;
     padding: 10px;
     border-radius: 10px;
@@ -693,11 +693,15 @@ ul{
 }
 
 .inc{
-    margin-left: 75%;
     color: #C9C9C9;
     font-family: "roboto slab";
     font-size: 1.1rem;
+    margin-left: 7.5%;
+    margin-right: 7.5%;
+    position: relative;
+    text-align: right;
 }
+
 
 /*responsive*/
 @media(max-width: 767px){

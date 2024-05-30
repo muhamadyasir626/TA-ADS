@@ -29,8 +29,8 @@
 /* Style for the close button */
 .pop-up .close-button {
   position: absolute;
-  top: -11px;
-  right: 10px;
+  top: -5px;
+  right: 12px;
   font-size: 50px;
   font-weight: bold;
   cursor: pointer;
@@ -142,9 +142,10 @@
 .pop-up .btn {
   border: 1px solid;
   border-radius: 5px;
+  overflow: hidden;
   cursor: pointer;
   position: relative;
-  overflow: hidden;
+ 
   width: 100px; /* Tetapkan lebar tetap */
   height: 30px; /* Tetapkan tinggi tetap */
   background-color: #ffffff;
@@ -202,7 +203,7 @@
   transform: translateY(190%);
 }
 .btn:hover .btn__invisible {
-  top: -18.5;
+  top: -18.5px;
 }
 .btn:focus {
   outline: none;

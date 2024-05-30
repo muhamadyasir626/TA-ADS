@@ -20,9 +20,9 @@ app.use(session({
   cookie: { maxAge: 1000 * 60 * 60 * 24 } // Session valid for 1 day
 }));
 
-app.listen(3000, () => {
-  console.log('Server started on port 3000');
-});
+// app.listen(443, () => {
+//   console.log('Server started on port 443');
+// });
 
 app.set('view engine', 'ejs');
 app.use(express.static('public'));
@@ -137,6 +137,10 @@ app.post("/login", async (req, res) => {
   }
 });
 
+app.get('/catalog', (req, res) => {
+  res.render('catalog');
+});
+
 app.get('/signup', (req, res) => {
   res.render('signup');
 });
@@ -235,7 +239,6 @@ app.get('/wishlist', async (req, res) => {
   }
 });
 
-
 //pop up wishlist
 app.get('/api/sneakers/detail/:id', async (req, res) => {
   try {
@@ -252,8 +255,6 @@ app.get('/api/sneakers/detail/:id', async (req, res) => {
     res.status(500).json({ message: 'Error fetching sneaker details' });
   }
 });
-
-
 
 //checkwishlist
 app.get('/api/check-wishlist', async (req, res) => {
@@ -290,7 +291,7 @@ app.post('/remove-from-page-wishlist', async (req, res) => {
   try {
     const result = await wishlist.deleteOne({
       username: req.session.user.username,  // Ensure username is correctly pulled from session
-      styleID: req.body.styleID             // Ensure styleID is correctly pulled from the request body
+      styleID: req.body.styleID            // Ensure styleID is correctly pulled from the request body
     });
 
     if (result.deletedCount === 0) {
@@ -304,19 +305,58 @@ app.post('/remove-from-page-wishlist', async (req, res) => {
   }
 });
 
-
-
-
-
-
-
-
-
-
-
 // feature search
 app.get('/api/search', (req, res) => {
   const query = req.query.q || 'Nike';  // Default search query
+  const limit = parseInt(req.query.limit, 10) || 9;  // Default limit
+  const offset = parseInt(req.query.offset, 10) || 0;  // Default offset
+
+  console.log(`Searching for sneakers with query: ${query}, limit: ${limit}, and offset: ${offset}`);
+
+  sneaks.getProducts(query, 100, (err, products) => {
+    if (err) {
+      console.error('Error fetching products:', err);
+      return res.status(500).json({ error: 'Product not found or error occurred.' });
+    }
+
+    if (!products || !Array.isArray(products)) {
+      console.error('Invalid products array received');
+      return res.status(500).json({ error: 'Invalid product data received.' });
+    }
+
+    const slicedProducts = products.slice(offset, offset + limit);
+    const formattedProducts = slicedProducts.map((product) => {
+      return {
+        shoeName: product.shoeName,
+        brand: product.brand,
+        releaseDate: product.releaseDate,
+        description: product.description,
+        colorway: product.colorway,
+        make: product.make,
+        retailPrice: product.retailPrice,
+        styleID: product.styleID,
+        thumbnail: product.thumbnail,
+        description: product.description,
+        resellLinks: {
+          goat: product.resellLinks.goat,
+          flightClub: product.resellLinks.flightClub,
+          stockX: product.resellLinks.stockX,
+
+        },
+        lowestResellPrice: {
+          stockX: product.lowestResellPrice.stockX,
+          flightClub: product.lowestResellPrice.flightClub,
+          goat: product.lowestResellPrice.goat,
+        }
+      };
+    });
+
+    res.json(formattedProducts);
+  });
+});
+
+app.get('/api/filter', (req, res) => {
+  const query = req.query.q ;  // Default search query
   const limit = parseInt(req.query.limit, 10) || 9;  // Default limit
   const offset = parseInt(req.query.offset, 10) || 0;  // Default offset
 
@@ -463,38 +503,43 @@ app.get('/api/most-popular', (req, res) => {
   console.log(`Fetching most popular sneakers with limit: ${limit}, offset: ${offset}`);
 
   // Fetch a large enough number to handle pagination properly
-  sneaks.getMostPopular(100, (err, products) => {
+  sneaks.getMostPopular(200, (err, products) => {
     if (err) {
       console.error('Error fetching most popular products:', err);
       return res.status(500).json({ error: 'Error occurred while fetching most popular products.' });
     }
 
     const slicedProducts = products.slice(offset, offset + limit);
-    const formattedProducts = slicedProducts.map((product) => {
-      return {
-        shoeName: product.shoeName,
-        brand: product.brand,
-        releaseDate: product.releaseDate,
-        description: product.description,
-        colorway: product.colorway,
-        make: product.make,
-        retailPrice: product.retailPrice,
-        styleID: product.styleID,
-        thumbnail: product.thumbnail,
-        description: product.description,
-        resellLinks: {
-          goat: product.resellLinks.goat,
-          flightClub: product.resellLinks.flightClub,
-          stockX: product.resellLinks.stockX,
+    const formattedProducts = slicedProducts.map((product) => formatProduct(product))
 
-        },
-        lowestResellPrice: {
-          stockX: product.lowestResellPrice.stockX,
-          flightClub: product.lowestResellPrice.flightClub,
-          goat: product.lowestResellPrice.goat,
-        }
-      };
-    });
+
+    // const slicedProducts = products.slice(offset, offset + limit);
+    // const formattedProducts = slicedProducts.map((product) => {
+    //   return {
+    //     shoeName: product.shoeName,
+    //     brand: product.brand,
+    //     releaseDate: product.releaseDate,
+    //     description: product.description,
+    //     colorway: product.colorway,
+    //     make: product.make,
+    //     retailPrice: product.retailPrice,
+    //     styleID: product.styleID,
+    //     thumbnail: product.thumbnail,
+    //     description: product.description,
+    //     resellLinks: {
+    //       goat: product.resellLinks.goat,
+    //       flightClub: product.resellLinks.flightClub,
+    //       stockX: product.resellLinks.stockX,
+
+    //     },
+    //     lowestResellPrice: {
+    //       stockX: product.lowestResellPrice.stockX,
+    //       flightClub: product.lowestResellPrice.flightClub,
+    //       goat: product.lowestResellPrice.goat,
+    //     }
+    //   };
+    // });
+    console.log(`Fetching most popular sneakers with limit: ${limit}, offset: ${offset}`);
 
     res.json(formattedProducts);
   });
@@ -547,3 +592,51 @@ app.use((req, res) => {
 app.listen(port, () => {
   console.log(`Server running at http://localhost:${port}`);
 });
+
+// Endpoint to get filtered sneaker data by brand
+app.get('/api/search', (req, res) => {
+    const query = req.query.q || 'Nike'; // Default search query if none provided
+    const limit = parseInt(req.query.limit, 10) || 9; // Default items per page
+    const offset = parseInt(req.query.offset, 10) || 0; // Pagination offset
+
+    console.log(`Searching for sneakers with query: ${query}, limit: ${limit}, and offset: ${offset}`);
+
+    // Split the query by spaces to support multiple brand filters
+    const brands = query.split(' ');
+
+    sneaks.getProducts(query, 100, (err, products) => {
+        if (err) {
+            console.error('Error fetching products:', err);
+            return res.status(500).json({ error: 'Product not found or error occurred.' });
+        }
+
+        if (!products || !Array.isArray(products)) {
+            console.error('Invalid products array received');
+            return res.status(500).json({ error: 'Invalid product data received.' });
+        }
+
+        // Filter products to only include those matching the selected brands
+        const filteredProducts = products.filter(product => brands.includes(product.brand));
+
+        const slicedProducts = filteredProducts.slice(offset, offset + limit);
+        const formattedProducts = slicedProducts.map((product) => formatProduct(product));
+
+        res.json(formattedProducts);
+    });
+});
+
+function formatProduct(product) {
+    return {
+        shoeName: product.shoeName,
+        brand: product.brand,
+        releaseDate: product.releaseDate,
+        description: product.description,
+        colorway: product.colorway,
+        make: product.make,
+        retailPrice: product.retailPrice,
+        styleID: product.styleID,
+        thumbnail: product.thumbnail,
+        resellLinks: product.resellLinks,
+        lowestResellPrice: product.lowestResellPrice,
+    };
+}

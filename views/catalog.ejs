@@ -27,17 +27,13 @@
             </form>
         </div>
         <nav class="navbar">
-            <a href="/home" class="nav-item">
+            <a href="/" class="nav-item">
                 <i class="fas fa-home"></i>
                 <span>Home</span>
             </a>
-            <a href="/Wishlist" class="nav-item">
-                <i class="fas fa-heart"></i>
-                <span>Wishlist</span>
-            </a>
             <a href="/profile" class="nav-item">
                 <i class="fa fa-user"></i>
-                <span>Account</span>
+                <span>Login</span>
             </a>
         </nav>
 
@@ -47,7 +43,6 @@
         <span class="our">Catalog</span>
     </div>
     <section class="product" id="product">
-
         <div class="filter">
             <div class="box">
                 <div class="filterbox1">
@@ -65,16 +60,14 @@
                     </form>
                     <hr>
                     <a>PRICE</a>
-                     <div class="filter-harga">
-                      <form action="" id="sneaker-filter-price-form">
+                    <div class="filter-harga">
                         <label for="hargaMin">Minimum Price</label>
-                        <input type="number" id="hargaMin" placeholder="$" min="0">
+                        <input type="number" id="hargaMin" placeholder="Rp" min="0">
                     
                         <label for="hargaMax">Maximum Price</label>
-                        <input type="number" id="hargaMax" placeholder="$" min="0">
+                        <input type="number" id="hargaMax" placeholder="Rp" min="0">
                     
-                        <button type="submit">Wholesale Price</button>
-                      </form>
+                        <button onclick="filterPrice()">Wholesale Price</button>
                     </div>
                 </div>
             </div>
@@ -182,7 +175,7 @@
                     </div>
                 </div>
                 <div class="footer-col">
-                    <h4 class="get">get help</h4>
+                    <h4>get help</h4>
                     <ul>
                         <li><a href="#">sneakerscout@gmail.com</a></li>
                         <li><a href="#">+6281322510027</a></li>
